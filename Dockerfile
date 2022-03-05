@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 # 选用国内镜像源以提高下载速度
-RUN  sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+RUN  sed -i s@/archive.ubuntu.com/@/mirrors.tencentyun.com/@g /etc/apt/sources.list
 #sed -i s@/security.ubuntu.com/@/mirrors.tuna.tsinghua.edu.cn/@g /etc/apt/sources.list
 RUN  apt clean
 RUN  apt update
@@ -25,4 +25,6 @@ RUN pip install --user -r requirements.txt -i https://mirrors.aliyun.com/pypi/si
 EXPOSE 80
 
 # 设定启动命令
+CMD ["python3", "manage.py", "makemigrations"]
+CMD ["python3", "manage.py", "migrate"]
 CMD ["python3", "manage.py", "runserver", "0.0.0.0:80"]
