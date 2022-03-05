@@ -5,7 +5,7 @@ from rest_framework.reverse import reverse
 
 from users.urls import user_api_router
 
-prefix = 'http://127.0.0.1:8000/'
+prefix = 'https://qiusuo-1622447-1309638607.ap-shanghai.run.tcloudbase.com/'
 
 
 @api_view(['GET'])
