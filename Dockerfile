@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 # 选用国内镜像源以提高下载速度
-RUN  sed -i s@/archive.ubuntu.com/@/mirrors.tencentyun.com/@g /etc/apt/sources.list
+RUN  sed -i s@/archive.ubuntu.com/@/mirrors.tuna.tsinghua.edu.cn/@g /etc/apt/sources.list
 #sed -i s@/security.ubuntu.com/@/mirrors.tuna.tsinghua.edu.cn/@g /etc/apt/sources.list
 RUN  apt clean
 RUN  apt update
@@ -21,6 +21,7 @@ RUN ln -snf /usr/share/zoneinfo/$TimeZone /etc/localtime && echo $TimeZone > /et
 # pip install scipy 等数学包失败，可使用 apk add py3-scipy 进行， 参考安装 https://pkgs.alpinelinux.org/packages?name=py3-scipy&branch=v3.13
 RUN pip install --user -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple
 
+ENV position online
 # 设定对外端口
 EXPOSE 80
 
