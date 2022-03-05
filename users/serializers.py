@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 from posts.models import Post
-from users.models import UserInfo
+from users.models import UserInfo, UserTitle
 
 
 class InnerPostSetSerializer(serializers.ModelSerializer):
@@ -38,4 +38,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class UserTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Token
+        fields = '__all__'
+
+
+class UserTitleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserTitle
         fields = '__all__'

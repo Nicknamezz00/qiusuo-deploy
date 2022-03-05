@@ -37,8 +37,8 @@ class UserInfo(User):
         verbose_name=u'个人介绍'
     )  # 个人介绍
     post_count = models.IntegerField(default=0)  # 话题数目
-    # is_login = models.BooleanField(default=False)
 
+    # is_login = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username
@@ -49,3 +49,16 @@ class UserInfo(User):
 
     class Meta:
         ordering = ['id']
+
+
+class UserTitle(models.Model):
+    owner = models.ForeignKey(
+        blank=False,
+        null=False,
+        to=u'users.UserInfo',
+        related_name='title_set',
+        on_delete=models.CASCADE,
+        db_constraint=True,
+        verbose_name=u'头衔拥有者'
+    )
+    title_str = models.TextField(blank=False, verbose_name='用户头衔')
