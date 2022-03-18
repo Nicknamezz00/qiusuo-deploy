@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'operations',
     'comments',
     'posts',
+    'subjects',
 
     # --- DRF ---
     'rest_framework',
