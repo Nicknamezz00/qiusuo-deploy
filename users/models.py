@@ -63,7 +63,3 @@ class UserTitle(models.Model):
     )
     title_str = models.TextField(blank=False, verbose_name='用户头衔')
 
-
-class Subject(models.Model):
-    # TODO: ...
-    pass

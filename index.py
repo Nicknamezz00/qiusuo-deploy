@@ -19,4 +19,5 @@ def root(request):
         'user-manage': prefix + 'user-manage/',
         'post-manage': prefix + 'post-manage/',
         'comment-manage': prefix + 'comment-manage/',
+        'subject-manage': prefix + 'subject-manage/',
     })
