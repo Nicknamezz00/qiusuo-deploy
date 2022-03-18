@@ -1,10 +1,13 @@
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.mixins import ListModelMixin
+from rest_framework.decorators import permission_classes
+from rest_framework.mixins import ListModelMixin, CreateModelMixin
+from rest_framework.permissions import IsAdminUser
+from rest_framework.viewsets import GenericViewSet
 
-from subjects.models import Subject
+from subjects.models import SubjectCategory_1
 from subjects.serializers import SubjectSerializer
 
 
-class SubjectViewSet(ModelViewSet, ListModelMixin):
-    queryset = Subject
+@permission_classes([IsAdminUser])
+class SubjectViewSet(GenericViewSet, ListModelMixin, CreateModelMixin):
+    queryset = Subject.objects.all().order_by('level')
     serializer_class = SubjectSerializer
