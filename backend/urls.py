@@ -44,7 +44,7 @@ urlpatterns = [
     path('comment-manage/', include('comments.urls')),
     path('operation-manage/', include('operations.urls')),
     path('subject-manage/', include('subjects.urls')),
-
+    path('favorite-manage/', include('favorite.urls')),
 ]
 
 # drf-yasg Swagger
