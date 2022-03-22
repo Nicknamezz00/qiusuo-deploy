@@ -9,5 +9,5 @@ from subjects.serializers import SubjectSerializer
 
 @permission_classes([IsAdminUser])
 class SubjectViewSet(GenericViewSet, ListModelMixin, CreateModelMixin):
-    queryset = Subject.objects.all().order_by('level')
+    queryset = SubjectCategory_1.objects.all()
     serializer_class = SubjectSerializer
