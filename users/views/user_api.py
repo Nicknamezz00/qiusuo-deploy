@@ -1,11 +1,9 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
-from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from users.models import UserInfo, UserTitle
-from users.serializers import UserProfileSerializer, UserTitleSerializer
+from users.serializers import UserProfileSerializer
 
 
 class UserInfoViewSet(ModelViewSet):

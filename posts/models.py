@@ -15,7 +15,7 @@ class Post(models.Model):
         verbose_name=u'作者'
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=u'创建时间')
-    title = models.TextField(verbose_name=u'标题')
+    title = models.TextField(unique=True, verbose_name=u'标题')
     content = models.TextField(blank=True, verbose_name=u'内容')
     excerpt = models.TextField(blank=True, verbose_name=u'引用', null=True)
     category = models.CharField(blank=True, max_length=20, verbose_name=u'种类', null=True)
@@ -26,13 +26,11 @@ class Post(models.Model):
     )
     parent = models.BigIntegerField(default=-1, verbose_name=u'父节点')
     comment_count = models.BigIntegerField(default=0, verbose_name=u'评论数')
+    likes = models.IntegerField(default=0, verbose_name='点赞数')
 
-    # owner = models.ManyToManyField(
-    #     User,
-    #     related_name='post_owner_set',
-    #     blank=True,
-    #     db_constraint=False
-    # )
 
     def __str__(self):
+        return self.author.id
+
+    def __repr__(self):
         return self.author.id

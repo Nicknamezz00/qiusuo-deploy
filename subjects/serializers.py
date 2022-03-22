@@ -7,18 +7,18 @@ from subjects.models import SubjectCategory_1, SubjectCategory_2, SubjectCategor
 class SubjectSerializer3(serializers.ModelSerializer):
     class Meta:
         model = SubjectCategory_3
-        fields = ['subject', 'level']
+        fields = '__all__'
 
 
 class SubjectSerializer2(serializers.ModelSerializer):
 
     class Meta:
         model = SubjectCategory_2
-        fields = ['subject', 'level', 'level3_subjects']
+        fields = '__all__'
 
 
 class SubjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubjectCategory_1
-        fields = ['subject', 'level']
+        fields = '__all__'
