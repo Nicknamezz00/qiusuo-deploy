@@ -61,5 +61,5 @@ class UserTitle(models.Model):
         db_constraint=True,
         verbose_name=u'头衔拥有者'
     )
-    title_str = models.TextField(blank=False, verbose_name='用户头衔')
+    title_str = models.TextField(max_length=20, blank=False, verbose_name='用户头衔')
 
