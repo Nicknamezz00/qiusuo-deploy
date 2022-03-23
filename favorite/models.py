@@ -11,7 +11,8 @@ class UserFavoriteFolder(models.Model):
                              on_delete=models.CASCADE,
                              verbose_name='所关联的用户')
 
-    name = models.CharField(max_length=20, null=False, verbose_name='文件夹名字')
+    folder_name = models.CharField(max_length=20, null=True, verbose_name='收藏文件夹名字')
+    create_at = models.DateTimeField(auto_now_add=True)
 
 
 class UserFavorite(models.Model):
@@ -21,4 +22,8 @@ class UserFavorite(models.Model):
                                on_delete=models.CASCADE,
                                verbose_name='所关联的文件夹')
 
-    post = models.ForeignKey(post, related_name='+', null=False, on_delete=models.CASCADE, verbose_name='所关联的文章')
+    post = models.ForeignKey(post,
+                             related_name='related_favorite',
+                             null=False,
+                             on_delete=models.CASCADE,
+                             verbose_name='收藏所关联的文章')
