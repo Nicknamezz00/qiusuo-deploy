@@ -12,7 +12,7 @@ class InnerPostSetSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    post_set = InnerPostSetSerializer(many=True)
+    # post_set = InnerPostSetSerializer(many=True)
 
     class Meta:
         model = UserInfo

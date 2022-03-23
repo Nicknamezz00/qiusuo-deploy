@@ -1,3 +1,5 @@
+import os
+
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -5,9 +7,14 @@ from rest_framework.reverse import reverse
 
 from users.urls import user_api_router
 
-# prefix = 'https://qiusuo-1622447-1309638607.ap-shanghai.run.tcloudbase.com/'
+#
 
-prefix = 'http://127.0.0.1:8000/'
+
+ENV_DEFINE = os.getenv('position')
+if ENV_DEFINE == 'online':
+    prefix = 'https://qiusuo-1622447-1309638607.ap-shanghai.run.tcloudbase.com/'
+else:
+    prefix = 'http://127.0.0.1:8000/'
 
 
 @api_view(['GET'])
