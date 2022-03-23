@@ -3,7 +3,7 @@ from rest_framework.filters import OrderingFilter
 from rest_framework.viewsets import ModelViewSet
 
 from users.models import UserInfo, UserTitle
-from users.serializers import UserProfileSerializer, UserTitleSerializer
+from users.serializers import UserProfileSerializer
 
 
 class UserInfoViewSet(ModelViewSet):

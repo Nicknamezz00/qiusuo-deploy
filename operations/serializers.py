@@ -1,10 +1,14 @@
+import re
 from datetime import datetime, timedelta
 
+from django.contrib.auth.models import User
 from django.utils import timezone
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import ValidationError
 from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
 
+from backend import constants
 from operations.models import VerifyCode
 from users.models import UserInfo
 
@@ -28,7 +32,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         max_length=12,
         min_length=6,
         write_only=True,
-        label='重置密码')
+        error_messages={
+            "blank": "密码不能为空",
+            "required": "请再次输入密码",
+        }, label='重置密码')
 
     def validate_code(self, code):
         """验证码校验"""
@@ -52,6 +59,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         password = attrs['password']
         password2 = attrs['password2']
+
         if password2 != password:
             raise ValidationError('两次密码不一致，请重新输入！')
         return attrs
@@ -62,11 +70,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = super().create(validated_data)
         user.set_password(validated_data['password'])
         user.save()
-
-        # 补充生成记录登录状态的token
-        payload = jwt_payload_handler(user)
-        token = jwt_encode_handler(payload)
-        user.token = token  # TODO: we have some problems here.
         return user
 
     class Meta:
@@ -94,3 +97,54 @@ class SmsVerifyCodeSerializer(serializers.Serializer):
                                      phone=phone).count():
             raise ValidationError("距离上一次发送未超过60s")
         return phone
+
+
+class LoginSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(
+        max_length=150,
+        required=True,
+    )
+    password = serializers.CharField(
+        min_length=6,
+        max_length=128,
+        required=True
+    )
+
+    def validate(self, attrs):
+        username = attrs.get('username')
+        password = attrs.get('password')
+        # 如果是手机号
+        if re.match(constants.REGEX_MOBILE, username):
+            # 以手机号登录
+            user = UserInfo.objects.filter(phone=username).first()
+        elif re.match(constants.REGEX_EMAIL, username):
+            # 以邮箱登录
+            user = UserInfo.objects.filter(email=username).first()
+        else:
+            # 以用户名登录
+            user = UserInfo.objects.filter(username=username).first()
+
+        if not user:
+            raise ValidationError('用户名不存在')
+
+        if user and user.check_password(password):
+            # 登录成功，生成token
+            payload = jwt_payload_handler(user)
+            token = jwt_encode_handler(payload)
+            self.context['token'] = token
+            self.context['username'] = user.username
+            self.context['user'] = user
+            return attrs
+        else:
+            raise ValidationError('用户名或密码错误')
+
+    # def create(self, validated_data):
+    #     obj, created = Token.objects.update_or_create(
+    #         key=self.context['token'],
+    #         user=self.context['user']
+    #     )
+    #     return obj
+
+    class Meta:
+        model = UserInfo
+        fields = ['username', 'password']

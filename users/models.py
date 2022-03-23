@@ -20,7 +20,7 @@ class UserInfo(User):
     phone = models.CharField(
         max_length=11,
         null=True,
-        blank=True,
+        blank=False,
         default=None,
         verbose_name=u'手机号码',
     )  # 电话
@@ -62,3 +62,4 @@ class UserTitle(models.Model):
         verbose_name=u'头衔拥有者'
     )
     title_str = models.TextField(blank=False, verbose_name='用户头衔')
+
