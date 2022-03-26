@@ -37,4 +37,6 @@ class UserTitleViewSet(ModelViewSet):
 
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filter_fields = ['owner']
+
     ordering_fields = ['-id', 'owner']
+    # TODO: search

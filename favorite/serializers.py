@@ -11,6 +11,7 @@ if ENV_DEFINE == 'online':
 else:
     prefix = 'http://127.0.0.1:8000/'
 
+
 class UserFavoriteSerializer(serializers.ModelSerializer):
     class UserFavoritePostSerializer(serializers.ModelSerializer):
         class Meta:
@@ -19,7 +20,7 @@ class UserFavoriteSerializer(serializers.ModelSerializer):
 
         def to_representation(self, instance):
             res = super().to_representation(instance=instance)
-            res['url'] = prefix +'post-manage/posts/' +  str(res['id']) + '/'
+            res['url'] = prefix + 'post-manage/posts/' + str(res['id']) + '/'
             del res['id']
             return res
 

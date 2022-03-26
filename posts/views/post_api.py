@@ -19,8 +19,8 @@ class PostViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_class = PostFilter
 
-    ordering_fields = ['created_at']
-    search_fields = ['author', 'category', 'title']
+    ordering_fields = ['created_at', 'likes']
+    search_fields = ['=author__username', 'category', 'title']
 
     @action(methods=['POST'], detail=True)
     def thumbs_up(self, request, pk):
@@ -36,4 +36,7 @@ class PostViewSet(ModelViewSet):
             "msg": "success",
             "likes": instance.likes,
         }, status=status.HTTP_200_OK)
+
+
+
 
