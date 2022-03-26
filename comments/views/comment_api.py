@@ -13,5 +13,6 @@ class CommentViewSet(ModelViewSet):
 
     filter_class = CommentFilter
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+
     ordering_fields = ['created_at']
-    search_fields = ['post_id', 'author']
+    search_fields = ['=author__username', 'post_id']
