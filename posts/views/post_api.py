@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.filters import OrderingFilter
+from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -16,8 +16,11 @@ class PostViewSet(ModelViewSet):
     queryset = Post.objects.all().order_by('created_at').reverse()
     serializer_class = PostSerializer
 
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_class = PostFilter
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
+
+    ordering_fields = ['created_at']
+    search_fields = ['author', 'category', 'title']
 
     @action(methods=['POST'], detail=True)
     def thumbs_up(self, request, pk):
