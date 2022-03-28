@@ -1,6 +1,5 @@
 from django.urls import path, include
 from rest_framework import routers
-from rest_framework_jwt.views import obtain_jwt_token, JSONWebTokenAPIView, ObtainJSONWebToken
 
 from operations.views.user_operations.login import LoginViewSet
 from operations.views.user_operations.register import RegisterViewSet, SendSmsVerifyCodeViewSet

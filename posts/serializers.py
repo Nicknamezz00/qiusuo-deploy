@@ -1,17 +1,9 @@
 from collections import OrderedDict
 
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
 
 from posts.models import Post
 from users.models import UserInfo
-
-
-class AuthorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserInfo
-        fields = ['id', 'username']
-        depth = 1
 
 
 class PostSerializer(serializers.ModelSerializer):

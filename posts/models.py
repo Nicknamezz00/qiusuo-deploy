@@ -15,10 +15,21 @@ class Post(models.Model):
         verbose_name=u'作者'
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=u'创建时间')
-    title = models.TextField(max_length=128, unique=False, verbose_name=u'标题')
-    content = models.TextField(max_length=1048576, blank=True, verbose_name=u'内容')
-    excerpt = models.TextField(max_length=2000, blank=True, verbose_name=u'引用', null=True)
-    category = models.CharField(blank=True, max_length=20, verbose_name=u'种类', null=True)
+    title = models.TextField(max_length=128, unique=True, verbose_name=u'标题')
+    content = models.TextField(
+        max_length=1048576,
+        blank=True,
+        verbose_name=u'内容')
+    excerpt = models.TextField(
+        max_length=2000,
+        blank=True,
+        verbose_name=u'引用',
+        null=True)
+    category = models.CharField(
+        blank=True,
+        max_length=20,
+        verbose_name=u'种类',
+        null=True)
     status = models.CharField(
         max_length=20,
         default='active',
@@ -27,7 +38,6 @@ class Post(models.Model):
     parent = models.BigIntegerField(default=-1, verbose_name=u'父节点')
     comment_count = models.BigIntegerField(default=0, verbose_name=u'评论数')
     likes = models.IntegerField(default=0, verbose_name='点赞数')
-
 
     def __str__(self):
         return self.author.id

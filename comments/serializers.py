@@ -24,7 +24,6 @@ class CommentSerializer(serializers.ModelSerializer):
 
 #    def get_author(self):
 
-
     def to_representation(self, instance):
         res = super().to_representation(instance=instance)
         repr_author = OrderedDict()

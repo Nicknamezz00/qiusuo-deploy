@@ -1,6 +1,6 @@
 from rest_framework.authtoken.models import Token
-from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin
+from rest_framework.viewsets import GenericViewSet
 
 from users.serializers import UserTokenSerializer
 
