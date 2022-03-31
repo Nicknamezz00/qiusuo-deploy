@@ -16,6 +16,8 @@ class PostViewSet(ModelViewSet):
     queryset = Post.objects.all().order_by('created_at').reverse()
     serializer_class = PostSerializer
 
+    # authentication_classes = [JSONWebTokenAuthentication]
+
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_class = PostFilter
 
@@ -32,11 +34,8 @@ class PostViewSet(ModelViewSet):
         instance.save()
 
         return Response(data={
+            "success": True,
             "code": 200,
-            "msg": "success",
+            "msg": "点赞成功",
             "likes": instance.likes,
         }, status=status.HTTP_200_OK)
-
-
-
-

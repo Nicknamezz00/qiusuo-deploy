@@ -12,8 +12,7 @@ class Post(models.Model):
         default=None,
         on_delete=models.DO_NOTHING,
         db_constraint=False,
-        verbose_name=u'作者'
-    )
+        verbose_name=u'作者')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=u'创建时间')
     title = models.TextField(max_length=128, unique=True, verbose_name=u'标题')
     content = models.TextField(
@@ -25,22 +24,28 @@ class Post(models.Model):
         blank=True,
         verbose_name=u'引用',
         null=True)
-    category = models.CharField(
+    category = models.ForeignKey(
+        verbose_name='学科分类',
+        to='subjects.Subject',
+        on_delete=models.CASCADE,
+        null=True,
         blank=True,
-        max_length=20,
-        verbose_name=u'种类',
-        null=True)
+        related_name='+')
     status = models.CharField(
         max_length=20,
         default='active',
-        verbose_name=u'状态'
-    )
-    parent = models.BigIntegerField(default=-1, verbose_name=u'父节点')
-    comment_count = models.BigIntegerField(default=0, verbose_name=u'评论数')
+        verbose_name=u'状态')
+    comment = models.ForeignKey(
+        verbose_name='评论',
+        to='comments.Comment',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='comment_set')
     likes = models.IntegerField(default=0, verbose_name='点赞数')
 
     def __str__(self):
-        return self.author.id
+        return self.title
 
     def __repr__(self):
-        return self.author.id
+        return self.title

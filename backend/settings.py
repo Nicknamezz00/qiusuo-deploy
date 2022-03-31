@@ -159,6 +159,12 @@ CORS_ORIGIN_WHITELIST = [
 # 前端需要携带cookies访问后端
 CORS_ALLOW_CREDENTIALS = True
 
+"""
+JSONWebTokenAuthentication认证流程:
+    POST /login/ 通过账号密码获得JWT
+    在Header Authorization中填写JWT + token
+"""
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',

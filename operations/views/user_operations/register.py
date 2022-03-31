@@ -47,13 +47,15 @@ class SendSmsVerifyCodeViewSet(GenericViewSet, CreateModelMixin):
         sms_status = 200
         if sms_status != 200:
             return Response({
-                'msg': '失败'
+                "success": False,
+                'msg': '发送验证码失败'
             }, status=status.HTTP_400_BAD_REQUEST)
         else:
             code_record = VerifyCode(code=code, phone=phone)
             code_record.save()
             return Response({
+                "success": True,
                 "code": 201,
-                "msg": 'success',
+                "msg": '发送成功',
                 "phone": phone
             }, status=status.HTTP_201_CREATED)
