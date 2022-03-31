@@ -6,8 +6,6 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_jwt.authentication import BaseJSONWebTokenAuthentication
 from rest_framework_jwt.utils import jwt_decode_handler
 
-from users.models import UserInfo
-
 
 class EmailOrPhoneBackend(ModelBackend):
     """

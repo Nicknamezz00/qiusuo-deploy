@@ -1,10 +1,8 @@
 import re
 from datetime import datetime, timedelta
 
-from django.contrib.auth.models import User
 from django.utils import timezone
 from rest_framework import serializers
-from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import ValidationError
 from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
 

@@ -1,41 +1,38 @@
 from django.db import models
 
 
-class SubjectCategory_3(models.Model):
-    subject = models.CharField(
+class BaseCategory(models.Model):
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+    cate_name = models.CharField(
+        '类别',
         unique=True,
-        max_length=255,
+        max_length=64,
         null=True,
-        verbose_name='三级学科名')
-    level = 3
+        blank=False)
+
+    class Meta:
+        abstract = True
 
     def __str__(self):
-        return self.subject + " " + str(self.level)
+        return self.cate_name
 
 
-class SubjectCategory_2(models.Model):
-    subject = models.CharField(
-        unique=True,
-        max_length=255,
+class Subject(BaseCategory):
+    # TODO: This needs to be a tree.
+    parent = models.ForeignKey(
+        verbose_name='父类别',
+        to='self',
+        on_delete=models.CASCADE,
         null=True,
-        verbose_name='二级学科名')
+        blank=True,
+        related_name='child')
+    # 层级
+    level = models.IntegerField('层级', blank=True, null=True)
 
-    level = 2
+    class Meta:
+        db_table = 'Subject'
+        verbose_name = '学科'
 
     def __str__(self):
-        return self.subject + " " + str(self.level)
-
-
-class SubjectCategory_1(models.Model):
-    subject = models.CharField(
-        unique=True,
-        max_length=255,
-        null=True,
-        verbose_name='一级学科名')
-
-    level = 1
-
-    def __str__(self):
-        return self.subject + " " + str(self.level)
-
-
+        return self.cate_name

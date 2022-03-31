@@ -1,8 +1,9 @@
 import re  # 正则
 from collections import OrderedDict  # 创建有序字典
+
 from django.conf import settings  # 导入setting配置文件(获取项目根路径urls.py)
-from django.utils.module_loading import import_string  # 字符串导入模块
 from django.urls import URLPattern, URLResolver  # Django自定义的类，可以判断当前URL是否为根路径(URLPattern)或继续向下分发(URLResolver )
+from django.utils.module_loading import import_string  # 字符串导入模块
 
 
 def check_url_exclude(url):
