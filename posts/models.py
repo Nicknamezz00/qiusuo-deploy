@@ -49,3 +49,8 @@ class Post(models.Model):
 
     def __repr__(self):
         return self.title
+
+    class Meta:
+        db_table = 'Post'
+        verbose_name = '帖子'
+        verbose_name_plural = verbose_name

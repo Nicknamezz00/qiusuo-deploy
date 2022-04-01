@@ -14,28 +14,24 @@ class UserInfo(User):
         max_length=20,
         blank=True,
         null=True,
-        verbose_name=u'QQ号码'
-    )
+        verbose_name=u'QQ号码')
     avatar = models.URLField(default='avatar/default.png')  # 头像
     phone = models.CharField(
         max_length=11,
         null=True,
         blank=False,
         default=None,
-        verbose_name=u'手机号码',
-    )  # 电话
+        verbose_name=u'手机号码')  # 电话
     gender = models.IntegerField(
         choices=SEX_CHOICE,
         null=True,
-        verbose_name=u'性别'
-    )  # 性别
+        verbose_name=u'性别')  # 性别
     intro = models.CharField(
         null=True,
         blank=True,
         default='你还没有写上个人介绍哦',
         max_length=300,
-        verbose_name=u'个人介绍'
-    )  # 个人介绍
+        verbose_name=u'个人介绍')  # 个人介绍
     post_count = models.IntegerField(default=0)  # 话题数目
 
     # is_login = models.BooleanField(default=False)
@@ -49,17 +45,29 @@ class UserInfo(User):
 
     class Meta:
         ordering = ['id']
+        db_table = 'UserInfo'
+        verbose_name = '用户信息'
+        verbose_name_plural = verbose_name
 
 
 class UserTitle(models.Model):
     owner = models.ForeignKey(
         blank=False,
         null=False,
-        to=u'users.UserInfo',
+        to='users.UserInfo',
         related_name='title_set',
         on_delete=models.CASCADE,
         db_constraint=True,
-        verbose_name=u'头衔拥有者'
-    )
-    title_str = models.TextField(max_length=20, blank=False, verbose_name='用户头衔')
+        verbose_name=u'头衔拥有者')
+    title_str = models.TextField(
+        max_length=20,
+        blank=False,
+        verbose_name='用户头衔')
 
+    def __str__(self):
+        return self.owner.username + ' ' + self.title_str
+
+    class Meta:
+        db_table = 'UserTitle'
+        verbose_name = '用户头衔'
+        verbose_name_plural = verbose_name
