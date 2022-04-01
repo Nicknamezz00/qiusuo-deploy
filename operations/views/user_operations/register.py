@@ -21,7 +21,9 @@ class RegisterViewSet(GenericViewSet, CreateModelMixin):
 
 @permission_classes([AllowAny])
 class SendSmsVerifyCodeViewSet(GenericViewSet, CreateModelMixin):
-    # 发送短信验证码
+    """
+    发送短信验证码
+    """
     serializer_class = SmsVerifyCodeSerializer
 
     def generate_code(self):

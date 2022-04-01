@@ -14,6 +14,7 @@ class SubjectSerializer(serializers.ModelSerializer):
         required=True,
         queryset=Subject.objects.all(),
         slug_field='cate_name',
+        error_messages={"blank": "请输入父学科名", "required": "请输入父学科名"},
         help_text="父学科名")
 
     childs = serializers.SerializerMethodField()

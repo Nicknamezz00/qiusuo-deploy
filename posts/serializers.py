@@ -8,7 +8,12 @@ from users.models import UserInfo
 
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
-        queryset=UserInfo.objects.all(), slug_field='id')
+        queryset=UserInfo.objects.all(),
+        slug_field='id',
+        error_messages={
+            "blank": "请输入作者名",
+            "required": "请输入作者名"},
+        help_text="作者名")
 
     class Meta:
         model = Post

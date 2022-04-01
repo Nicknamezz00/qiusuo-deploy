@@ -1,6 +1,7 @@
 import re
 from datetime import datetime, timedelta
 
+from django.contrib import auth
 from django.utils import timezone
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -100,13 +101,11 @@ class SmsVerifyCodeSerializer(serializers.Serializer):
 class LoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField(
         max_length=150,
-        required=True,
-    )
+        required=True)
     password = serializers.CharField(
         min_length=6,
         max_length=128,
-        required=True
-    )
+        required=True)
 
     def validate(self, attrs):
         username = attrs.get('username')
@@ -126,7 +125,7 @@ class LoginSerializer(serializers.ModelSerializer):
             raise ValidationError('用户名不存在')
 
         if user and user.check_password(password):
-            # 登录成功，生成token
+            # 生成token
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
             self.context['token'] = token
@@ -136,12 +135,6 @@ class LoginSerializer(serializers.ModelSerializer):
         else:
             raise ValidationError('用户名或密码错误')
 
-    # def create(self, validated_data):
-    #     obj, created = Token.objects.update_or_create(
-    #         key=self.context['token'],
-    #         user=self.context['user']
-    #     )
-    #     return obj
 
     class Meta:
         model = UserInfo
