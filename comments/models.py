@@ -21,3 +21,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.author.username
+
+    class Meta:
+        db_table = 'Comment'
+        verbose_name = '评论'
+        verbose_name_plural = verbose_name

@@ -33,6 +33,7 @@ class Subject(BaseCategory):
     class Meta:
         db_table = 'Subject'
         verbose_name = '学科'
+        verbose_name_plural = verbose_name
 
     def __str__(self):
         return self.cate_name

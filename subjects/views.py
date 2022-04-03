@@ -10,11 +10,20 @@ from subjects.serializers import SubjectSerializer
 
 @permission_classes([IsAdminUser])
 class SubjectViewSet(viewsets.ModelViewSet):
+    """
+    学科分类接口，只有管理员用户才可以调用。
+        Basic Auth：管理员账号 + 管理员密码
+
+    默认排序：层级（level）增序（学科涵盖度降序），最高级学科level为0，学科越低层 level越大
+    """
+
     queryset = Subject.objects.all().order_by('level')
     serializer_class = SubjectSerializer
 
-
     def destroy(self, request, *args, **kwargs):
+        """
+        删除某个学科
+        """
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response(data={

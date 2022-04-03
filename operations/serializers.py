@@ -1,6 +1,7 @@
 import re
 from datetime import datetime, timedelta
 
+from django.contrib import auth
 from django.utils import timezone
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -101,12 +102,20 @@ class LoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField(
         max_length=150,
         required=True,
-    )
+        error_messages={
+            'blank': '请输入手机号/邮箱',
+            'required': '请输入手机号/邮箱'
+        },help_text='用户名')
+
     password = serializers.CharField(
         min_length=6,
         max_length=128,
-        required=True
-    )
+        required=True,
+        error_messages={
+            'blank': '密码不能为空！',
+            'required': '密码不能为空！',
+            'min_length': '密码长度至少为6位'
+        }, help_text='密码')
 
     def validate(self, attrs):
         username = attrs.get('username')
@@ -123,10 +132,10 @@ class LoginSerializer(serializers.ModelSerializer):
             user = UserInfo.objects.filter(username=username).first()
 
         if not user:
-            raise ValidationError('用户名不存在')
+            raise ValidationError('用户名不存在，用户名一般为手机号/邮箱号')
 
         if user and user.check_password(password):
-            # 登录成功，生成token
+            # 生成token
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
             self.context['token'] = token
@@ -134,15 +143,8 @@ class LoginSerializer(serializers.ModelSerializer):
             self.context['user'] = user
             return attrs
         else:
-            raise ValidationError('用户名或密码错误')
-
-    # def create(self, validated_data):
-    #     obj, created = Token.objects.update_or_create(
-    #         key=self.context['token'],
-    #         user=self.context['user']
-    #     )
-    #     return obj
+            raise ValidationError('密码错误')
 
     class Meta:
         model = UserInfo
-        fields = ['username', 'password']
+        fields = ['username', 'password', 'avatar']
