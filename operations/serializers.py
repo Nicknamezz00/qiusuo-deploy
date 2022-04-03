@@ -2,6 +2,7 @@ import re
 from datetime import datetime, timedelta
 
 from django.contrib import auth
+from django.contrib.auth.models import User
 from django.utils import timezone
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -10,6 +11,7 @@ from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handl
 from backend import constants
 from operations.models import VerifyCode
 from users.models import UserInfo
+from users.serializers import UserProfileSerializer
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -117,6 +119,15 @@ class LoginSerializer(serializers.ModelSerializer):
             'min_length': '密码长度至少为6位'
         }, help_text='密码')
 
+    user_info = serializers.SerializerMethodField()
+
+    def get_user_info(self, obj):
+        username = obj['username']
+        user_ptr_id = User.objects.get(username=username).id
+        user_info = UserInfo.objects.get(user_ptr_id=user_ptr_id)
+        user_ser = UserProfileSerializer(user_info)
+        return user_ser.data
+
     def validate(self, attrs):
         username = attrs.get('username')
         password = attrs.get('password')
@@ -147,4 +158,4 @@ class LoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserInfo
-        fields = ['username', 'password', 'avatar']
+        fields = ['username', 'password', 'user_info']
