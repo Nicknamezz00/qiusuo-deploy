@@ -25,9 +25,9 @@ class LoginViewSet(GenericViewSet, CreateModelMixin):
         auth.login(request=request, user=user)
 
         headers = self.get_success_headers(serializer.data)
-        res = serializer.context
 
         data = serializer.data
         data["success"] = True
         data["code"] = 201
+        data["token"] = serializer.context['token']
         return Response(data=data, status=status.HTTP_201_CREATED, headers=headers)
