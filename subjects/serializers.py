@@ -11,7 +11,7 @@ class ChildSerializer(serializers.ModelSerializer):
 
 class SubjectSerializer(serializers.ModelSerializer):
     parent = serializers.SlugRelatedField(
-        required=True,
+        required=False,
         queryset=Subject.objects.all(),
         slug_field='cate_name',
         error_messages={"blank": "请输入父学科名", "required": "请输入父学科名"},
