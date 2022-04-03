@@ -28,18 +28,20 @@ class SubjectSerializer(serializers.ModelSerializer):
         cate_name = attrs.get('cate_name')
         level = attrs.get('level')
 
+        if level == 0:
+            return attrs
+
         if not cate_name:
             raise serializers.ValidationError("类别不能为空!")
 
         # 只有最高层级学科不存在父学科
         parent = attrs.get('parent')
-        if not parent and level != 0:
+        if not parent:
             raise serializers.ValidationError("父学科不存在!")
 
         # 当前学科的层级只能比父学科低一级
-        if parent:
-            if not level == parent.level + 1:
-                raise serializers.ValidationError("层级不合法!")
+        if not level == parent.level + 1:
+            raise serializers.ValidationError("层级不合法!")
 
         return attrs
 

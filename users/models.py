@@ -33,6 +33,12 @@ class UserInfo(User):
         max_length=300,
         verbose_name=u'个人介绍')  # 个人介绍
     post_count = models.IntegerField(default=0)  # 话题数目
+    subject = models.ForeignKey(
+        verbose_name='专业',
+        to='subjects.Subject',
+        null=True,
+        related_name='subject_set',
+        on_delete=models.CASCADE)
 
     # is_login = models.BooleanField(default=False)
 
