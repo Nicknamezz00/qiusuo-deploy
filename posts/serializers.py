@@ -6,10 +6,16 @@ from posts.models import Post
 from users.models import UserInfo
 
 
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserInfo
+        fields = ['id', 'username']
+
+
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
         queryset=UserInfo.objects.all(),
-        slug_field='id',
+        slug_field='username',
         error_messages={
             "blank": "请输入作者名",
             "required": "请输入作者名"},
@@ -22,8 +28,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         res = super().to_representation(instance=instance)
-        repr_author = OrderedDict()
-        repr_author['id'] = instance.author.id
-        repr_author['username'] = instance.author.username
-        res['author'] = repr_author
+        author = instance.author
+        author_ser = AuthorSerializer(author)
+        res['author'] = author_ser.data
         return res

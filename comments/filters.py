@@ -10,7 +10,9 @@ class CommentFilter(rest_framework.FilterSet):
         field_name='post_id', lookup_expr='iexact')
     category = rest_framework.CharFilter(
         field_name='category', lookup_expr='iexact')
+    parent = rest_framework.CharFilter(
+        field_name='parent__id', lookup_expr='iexact')
 
     class Meta:
         models = Comment
-        fields = ['id', 'author', 'post_id']
+        fields = ['id', 'author', 'post_id', 'category', 'parent']
