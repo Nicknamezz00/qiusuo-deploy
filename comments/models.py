@@ -8,9 +8,15 @@ class Comment(models.Model):
         on_delete=models.DO_NOTHING,
         related_name='comment_set',
         verbose_name=u'评论者',
-        db_constraint=False
-    )
-
+        db_constraint=False)
+    parent = models.ForeignKey(
+        to='self',
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name='child',
+        db_constraint=False,
+        verbose_name='父评论')
     post_id = models.BigIntegerField(verbose_name=u'帖子id')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=u'创建时间')
     content = models.TextField(verbose_name=u'内容')

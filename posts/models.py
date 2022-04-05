@@ -27,10 +27,11 @@ class Post(models.Model):
     category = models.ForeignKey(
         verbose_name='学科分类',
         to='subjects.Subject',
-        on_delete=models.CASCADE,
+        on_delete=models.DO_NOTHING,
         null=True,
         blank=True,
-        related_name='+')
+        related_name='+',
+        db_constraint=False)
     status = models.CharField(
         max_length=20,
         default='active',
@@ -41,7 +42,8 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name='comment_set')
+        related_name='comment_set',
+        db_constraint=False)
     likes = models.IntegerField(default=0, verbose_name='点赞数')
 
     def __str__(self):

@@ -3,6 +3,7 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 from posts.models import Post
+from subjects.models import Subject
 from users.models import UserInfo, UserTitle
 
 
@@ -13,7 +14,14 @@ class InnerPostSetSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    # post_set = InnerPostSetSerializer(many=True)
+    subject = serializers.SlugRelatedField(queryset=Subject.objects.all(), slug_field='cate_name')
+    # TODO: subject会被覆盖
+    # 超级用户手动创建用户
+    def create(self, validated_data):
+        user = super().create(validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
     class Meta:
         model = UserInfo
@@ -30,14 +38,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'phone',
             'intro',
             'created_at',
-            'post_set']
-
-    # 超级用户手动创建用户
-    def create(self, validated_data):
-        user = super().create(validated_data)
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
+            'post_set', 'subject']
 
 
 class UserTokenSerializer(serializers.ModelSerializer):

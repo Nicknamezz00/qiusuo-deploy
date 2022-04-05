@@ -13,6 +13,7 @@ from posts.serializers import PostSerializer
 
 class PostViewSet(ModelViewSet):
     """
+    # TODO: permission control.
     帖子接口，需要权限。
         1. 'Basic Auth'
         2. JWT认证，请求头Authorization：JWT + 登陆返回的Token
