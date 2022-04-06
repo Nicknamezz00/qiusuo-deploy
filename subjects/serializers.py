@@ -6,7 +6,7 @@ from subjects.models import Subject
 class InnerChildSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
-        fields = ['level', 'cate_name']
+        fields = ['pk', 'level', 'cate_name']
 
 
 class SubjectSerializer(serializers.ModelSerializer):
@@ -47,5 +47,5 @@ class SubjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subject
-        depth = 2
+        depth = 3
         fields = ['id', 'level', 'cate_name', 'parent', 'childs']

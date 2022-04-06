@@ -6,10 +6,10 @@ from posts.models import Post
 from users.models import UserInfo
 
 
-class AuthorSerializer(serializers.ModelSerializer):
+class InnerAuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInfo
-        fields = ['id', 'username']
+        fields = ['pk', 'username', 'avatar']
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -23,12 +23,12 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        depth = 1
+        depth = 3
         fields = '__all__'
 
     def to_representation(self, instance):
         res = super().to_representation(instance=instance)
         author = instance.author
-        author_ser = AuthorSerializer(author)
+        author_ser = InnerAuthorSerializer(author)
         res['author'] = author_ser.data
         return res
