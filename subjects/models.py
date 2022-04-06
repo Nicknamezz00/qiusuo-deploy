@@ -19,7 +19,6 @@ class BaseCategory(models.Model):
 
 
 class Subject(BaseCategory):
-    # TODO: This needs to be a tree.
     parent = models.ForeignKey(
         verbose_name='父类别',
         to='self',

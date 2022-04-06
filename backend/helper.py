@@ -1,6 +1,8 @@
 import json
 
 import requests
+from rest_framework import viewsets, status
+from rest_framework.response import Response
 
 
 class SendSmsVerifyCode(object):
@@ -22,3 +24,17 @@ class SendSmsVerifyCode(object):
 
         response = requests.post(self.send_url, data=params)
         return json.loads(response)
+
+
+class MyModelViewSet(viewsets.ModelViewSet):
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(data={
+            'success': True,
+            'code': 204,
+            'msg': '删除成功'
+        }, status=status.HTTP_204_NO_CONTENT)
+
+    def perform_destroy(self, instance):
+        instance.delete()

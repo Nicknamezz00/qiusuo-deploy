@@ -4,12 +4,13 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
+from backend import helper
 from subjects.models import Subject
 from subjects.serializers import SubjectSerializer
 
 
 @permission_classes([IsAdminUser])
-class SubjectViewSet(viewsets.ModelViewSet):
+class SubjectViewSet(helper.MyModelViewSet):
     """
     学科分类接口，只有管理员用户才可以调用。
         Basic Auth：管理员账号 + 管理员密码
@@ -19,18 +20,3 @@ class SubjectViewSet(viewsets.ModelViewSet):
 
     queryset = Subject.objects.all().order_by('level')
     serializer_class = SubjectSerializer
-
-    def destroy(self, request, *args, **kwargs):
-        """
-        删除某个学科
-        """
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        return Response(data={
-            'success': True,
-            'code': 204,
-            'msg': '删除成功'
-        }, status=status.HTTP_204_NO_CONTENT)
-
-    def perform_destroy(self, instance):
-        instance.delete()

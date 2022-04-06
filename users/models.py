@@ -37,8 +37,10 @@ class UserInfo(User):
         verbose_name='专业',
         to='subjects.Subject',
         null=True,
+        blank=True,
         related_name='subject_set',
-        on_delete=models.CASCADE)
+        on_delete=models.DO_NOTHING,
+        db_constraint=False)
 
     # is_login = models.BooleanField(default=False)
 
