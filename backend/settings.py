@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'posts',
     'subjects',
     'favorite',
+    'examine',
 
     # --- DRF ---
     'rest_framework',
