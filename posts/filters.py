@@ -9,7 +9,7 @@ class PostFilter(rest_framework.FilterSet):
     title = rest_framework.CharFilter(
         field_name='title', lookup_expr='icontains')
     category = rest_framework.CharFilter(
-        field_name='category', lookup_expr='iexact')
+        field_name='category__cate_name', lookup_expr='iexact')
 
     class Meta:
         model = Post

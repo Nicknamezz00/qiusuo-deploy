@@ -3,6 +3,7 @@ from collections import OrderedDict
 from rest_framework import serializers
 
 from posts.models import Post
+from subjects.models import Subject
 from users.models import UserInfo
 
 
@@ -20,6 +21,11 @@ class PostSerializer(serializers.ModelSerializer):
             "blank": "请输入作者名",
             "required": "请输入作者名"},
         help_text="作者名")
+    category = serializers.SlugRelatedField(
+        required=False,
+        queryset=Subject.objects.all(),
+        slug_field='cate_name',
+        help_text='学科分类')
 
     class Meta:
         model = Post
