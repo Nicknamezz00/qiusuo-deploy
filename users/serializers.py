@@ -5,6 +5,7 @@ from rest_framework.authtoken.models import Token
 from posts.models import Post
 from subjects.models import Subject
 from users.models import UserInfo, UserTitle
+from examine.models import TitleExamine
 
 
 class InnerPostSetSerializer(serializers.ModelSerializer):
@@ -14,7 +15,19 @@ class InnerPostSetSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    # add title_examined_set
+    class TitleExaminedSetSerializer(serializers.ModelSerializer):
+
+        def get_queryset(self):
+            return TitleExamine.objects.filter(is_approved=True)
+
+        class Meta:
+            model = TitleExamine
+            fields = ['title', 'real_name', 'school_id_card', 'school', 'is_approved','is_rejected', 'reject_reason']
+
     subject = serializers.SlugRelatedField(queryset=Subject.objects.all(), slug_field='cate_name')
+    title_examined_set = TitleExaminedSetSerializer(many=True, read_only=True)
+
     # TODO: subject会被覆盖
     # 超级用户手动创建用户
     def create(self, validated_data):
@@ -38,7 +51,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'phone',
             'intro',
             'created_at',
-            'post_set', 'subject']
+            'post_set',
+            'subject',
+            'title_examined_set'
+        ]
 
 
 class UserTokenSerializer(serializers.ModelSerializer):
