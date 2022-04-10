@@ -35,9 +35,9 @@ class UserInfoViewSet(ModelViewSet):
         auth.logout(request)
         return Response(data={
             'success': True,
-            'code': 303,
+            'code': 200,
             'msg': '已登出'
-        }, status=status.HTTP_303_SEE_OTHER)
+        }, status=status.HTTP_200_OK)
 
 
 class UserTitleViewSet(ModelViewSet):
