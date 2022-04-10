@@ -36,6 +36,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+    def validate(self, attrs):
+        password = attrs['password']
+        # password = set_password(password=password)
+        return attrs
+
     class Meta:
         model = UserInfo
         fields = [

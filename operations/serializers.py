@@ -2,6 +2,7 @@ import re
 from datetime import datetime, timedelta
 
 from django.contrib import auth
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.utils import timezone
 from rest_framework import serializers
@@ -145,12 +146,15 @@ class LoginSerializer(serializers.ModelSerializer):
         if not user:
             raise ValidationError('用户名不存在，用户名一般为手机号/邮箱号')
 
+        attrs['password'] = make_password(password)
+
         if user and user.check_password(password):
             # 生成token
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
             self.context['token'] = token
             self.context['username'] = user.username
+            self.context['password'] = user.password
             self.context['user'] = user
             return attrs
         else:
