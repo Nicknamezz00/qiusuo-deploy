@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'subjects',
     'favorite',
     'examine',
+    'feedback',
 
     # --- DRF ---
     'rest_framework',

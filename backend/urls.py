@@ -46,6 +46,7 @@ urlpatterns = [
     path('subject-manage/', include('subjects.urls')),
     path('favorite-manage/', include('favorite.urls')),
     path('examine/', include('examine.urls')),
+    path('feedback/', include('feedback.urls')),
 ]
 
 # drf-yasg Swagger
