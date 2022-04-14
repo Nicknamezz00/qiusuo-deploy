@@ -66,6 +66,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'backend.middleware.NotUseCsrfTokenMiddlewareMixin',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -156,7 +158,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_WHITELIST = [
     'https://127.0.0.1:8080',
     'https://localhost:8080',
-    'https://qiusuo-frontend-1622447-1309638607.ap-shanghai.run.tcloudbase.com/',
+    'https://qiusuo-frontend-1622447-1309638607.ap-shanghai.run.tcloudbase.com',
 ]
 
 # 前端需要携带cookies访问后端
