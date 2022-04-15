@@ -18,8 +18,11 @@ from drf_yasg.views import get_schema_view
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
+from django.conf import settings
+from django.conf.urls.static import static
 
 import index
+import utils.upload
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -47,8 +50,9 @@ urlpatterns = [
     path('favorite-manage/', include('favorite.urls')),
     path('examine/', include('examine.urls')),
     path('feedback/', include('feedback.urls')),
+    path('upload-avatar/',utils.upload.upload_avatar),
 ]
-
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # drf-yasg Swagger
 urlpatterns += [
     path('doc/', schema_view.with_ui('swagger', cache_timeout=0),
