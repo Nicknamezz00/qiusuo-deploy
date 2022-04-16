@@ -13,4 +13,5 @@ class TitleExamineViewSet(ModelViewSet):
         if self.action == 'list':
             return TitleExamineDetailSerializer
         return TitleExamineCreateSerializer
+
     ordering_fields = ['created_time', '-is_examined']

@@ -44,6 +44,12 @@ class UserInfo(User):
 
     # is_login = models.BooleanField(default=False)
 
+    # permissions:
+    is_manual_authenticated = models.BooleanField(
+        '人工认证', default=False, help_text=(
+            'Designates whether this user should be treated as manual authenticated. '
+            'Unselect this instead of deleting accounts.'))
+
     def __str__(self):
         return self.username
 
