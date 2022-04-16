@@ -14,9 +14,7 @@ COPY . /app
 WORKDIR /app
 
 # 安装依赖到指定的/install文件夹
-# 选用国内镜像源以提高下载速度
-
-RUN ln -snf /usr/share/zoneinfo/$TimeZone /etc/localtime && echo $TimeZone > /etc/timezone
+# 选用国内镜像源以提高下载速
 # && pip install --upgrade pip \
 # pip install scipy 等数学包失败，可使用 apk add py3-scipy 进行， 参考安装 https://pkgs.alpinelinux.org/packages?name=py3-scipy&branch=v3.13
 RUN pip install --user -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple
