@@ -15,3 +15,7 @@ db.sqlite3
 *.sw?
 qsdjango/**
 media/**
+
+Dockerfile.development
+docker-compose.yml
+.cloudbase/**

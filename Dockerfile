@@ -5,7 +5,9 @@ RUN  sed -i s@/archive.ubuntu.com/@/mirrors.tuna.tsinghua.edu.cn/@g /etc/apt/sou
 #sed -i s@/security.ubuntu.com/@/mirrors.tuna.tsinghua.edu.cn/@g /etc/apt/sources.list
 RUN  apt clean
 RUN  apt update
+
 ENV DEBIAN_FRONTEND=noninteractive
+
 RUN apt install -y build-essential python3 python3-pip pip python3-dev default-libmysqlclient-dev tzdata -y
 
 # 拷贝当前项目到/app目录下
