@@ -14,18 +14,28 @@ class InnerPostSetSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'created_at', 'category', 'status']
 
 
-class UserProfileSerializer(serializers.ModelSerializer):
+class TitleExaminedSetSerializer(serializers.ModelSerializer):
     # add title_examined_set
-    class TitleExaminedSetSerializer(serializers.ModelSerializer):
+    def get_queryset(self):
+        return TitleExamine.objects.filter(is_approved=True)
 
-        def get_queryset(self):
-            return TitleExamine.objects.filter(is_approved=True)
+    class Meta:
+        model = TitleExamine
+        fields = [
+            'title',
+            'real_name',
+            'school_id_card',
+            'school',
+            'is_approved',
+            'is_rejected',
+            'reject_reason']
 
-        class Meta:
-            model = TitleExamine
-            fields = ['title', 'real_name', 'school_id_card', 'school', 'is_approved','is_rejected', 'reject_reason']
 
-    subject = serializers.SlugRelatedField(queryset=Subject.objects.all(), slug_field='cate_name')
+class UserProfileSerializer(serializers.ModelSerializer):
+    subject = serializers.SlugRelatedField(
+        queryset=Subject.objects.all(),
+        slug_field='cate_name',
+        required=False)
     title_examined_set = TitleExaminedSetSerializer(many=True, read_only=True)
 
     # TODO: subject会被覆盖
@@ -34,6 +44,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
         user = super().create(validated_data)
         user.set_password(validated_data['password'])
         user.save()
+
+        # Add user to default unauthenticated group.
+
         return user
 
     def validate(self, attrs):
@@ -43,23 +56,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserInfo
-        fields = [
-            'id',
-            'username',
-            'password',
-            'avatar',
-            'first_name',
-            'last_name',
-            'gender',
-            'email',
-            'qq',
-            'phone',
-            'intro',
-            'created_at',
-            'post_set',
-            'subject',
-            'title_examined_set'
-        ]
+        fields = '__all__'
 
 
 class UserTokenSerializer(serializers.ModelSerializer):

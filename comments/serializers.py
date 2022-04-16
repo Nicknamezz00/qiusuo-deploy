@@ -7,7 +7,7 @@ from users.models import UserInfo
 class InnerAuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInfo
-        fields = ['pk', 'username', 'avatar', 'subject']
+        fields = '__all__'
 
 
 class InnerChildSerializer(serializers.ModelSerializer):

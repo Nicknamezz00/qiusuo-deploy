@@ -81,7 +81,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class SmsVerifyCodeSerializer(serializers.Serializer):
-    phone = serializers.CharField(max_length=11)
+    phone = serializers.CharField(max_length=11, required=False)
+    email = serializers.EmailField(required=False)
 
     def validate_phone(self, phone):
         # 手机是否注册
@@ -99,6 +100,23 @@ class SmsVerifyCodeSerializer(serializers.Serializer):
                                      phone=phone).count():
             raise ValidationError("距离上一次发送未超过60s")
         return phone
+
+    def validate_email(self, email):
+        # email是否注册
+        if UserInfo.objects.filter(email=email).count():
+            raise ValidationError("用户名已存在")
+
+        # 验证手机号码
+        # if not re.match(REGEX_MOBILE, phone):
+        #     raise ValidationError("手机号码非法")
+
+        # 验证码发送频率
+        one_minutes_ago = datetime.now() - timedelta(hours=0, minutes=1,
+                                                     seconds=0)
+        if VerifyCode.objects.filter(add_time__gt=one_minutes_ago,
+                                     email=email).count():
+            raise ValidationError("距离上一次发送未超过60s")
+        return email
 
 
 class LoginSerializer(serializers.ModelSerializer):
