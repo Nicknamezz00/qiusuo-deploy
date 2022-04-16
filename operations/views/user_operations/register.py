@@ -35,7 +35,7 @@ class SendSmsVerifyCodeViewSet(GenericViewSet, CreateModelMixin):
         # TODO: third_party = ThirdParty(APIKEY)
         try:
             code = send_email(request, *args, **kwargs)
-
+            print('code has been spend successful')
             code_record = VerifyCode(code=code, email=email)
             code_record.save()
 
