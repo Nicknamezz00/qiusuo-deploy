@@ -93,25 +93,25 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-ENV_DEFINE = os.getenv('position')
-if ENV_DEFINE == 'online':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'qiusuo',
-            'USER': 'root',
-            'PASSWORD': '20020704Zz',
-            'HOST': 'sh-cynosdbmysql-grp-5y6po95m.sql.tencentcdb.com',
-            'PORT': '23316'
-        },
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
+# ENV_DEFINE = os.getenv('position')
+# if ENV_DEFINE == 'online':
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'qiusuo',
+        'USER': 'root',
+        'PASSWORD': '20020704Zz',
+        'HOST': 'sh-cynosdbmysql-grp-5y6po95m.sql.tencentcdb.com',
+        'PORT': '23316'
+    },
+}
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         }
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
