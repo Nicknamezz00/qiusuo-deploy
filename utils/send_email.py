@@ -49,12 +49,12 @@ def send_email(request, *args, **kwargs):
     print('connect stmp server')
     smtp.connect('smtp.qq.com', 25)
     print('login stmp server')
-    smtp.login(user=username, password=password)
-    receiver = request.data['email']
-    code = generate_code()
-    print('gen context')
-    msg = get_message(receiver, code)
     try:
+        smtp.login(user=username, password=password)
+        receiver = request.data['email']
+        code = generate_code()
+        print('gen context')
+        msg = get_message(receiver, code)
         print('start to sent context')
         smtp.sendmail(username, receiver, msg.as_string())
         smtp.quit()
