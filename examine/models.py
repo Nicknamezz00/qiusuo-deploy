@@ -19,7 +19,13 @@ class TitleExamine(models.Model):
         verbose_name='学号/工号',
         null=False,
         blank=False)
-    school = models.CharField(max_length=100, verbose_name='所工作的学校')
+    school = models.ForeignKey(
+        'informations.School',
+        verbose_name='学校',
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        db_constraint=False)
     is_approved = models.BooleanField(default=False, verbose_name='是否已通过审核')
     is_rejected = models.BooleanField(default=False, verbose_name='是否已被拒绝')
     reject_reason = models.CharField(
