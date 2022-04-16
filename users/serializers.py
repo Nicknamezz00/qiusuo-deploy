@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
@@ -50,8 +51,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
         return user
 
     def validate(self, attrs):
-        password = attrs['password']
-        # password = set_password(password=password)
+        raw_password = attrs['password']
+        if raw_password:
+            attrs['password'] = make_password(raw_password)
         return attrs
 
     class Meta:
