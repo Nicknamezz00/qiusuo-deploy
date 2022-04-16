@@ -15,7 +15,6 @@ class CommentViewSet(ModelViewSet):
     评论接口，需要权限。
         1. 'Basic Auth'
         2. JWT认证，请求头Authorization：JWT + 登陆返回的Token
-    # TODO: permission control.
     默认排序字段：'created_at'，最新发布顺序
     过滤字段：'id', 'author', 'post_id', 'category', 'parent'
     后台搜索字段：作者名（=author__username，），评论贴主键（post_id）

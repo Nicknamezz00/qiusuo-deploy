@@ -32,7 +32,7 @@ class SendSmsVerifyCodeViewSet(GenericViewSet, CreateModelMixin):
         serializer.is_valid(raise_exception=True)
         email = serializer.validated_data['email']
 
-        # TODO: third_party = ThirdParty(APIKEY)
+        # third_party = ThirdParty(APIKEY)
         try:
             code = send_email(request, *args, **kwargs)
 
@@ -54,7 +54,7 @@ class SendSmsVerifyCodeViewSet(GenericViewSet, CreateModelMixin):
             }, status=status.HTTP_400_BAD_REQUEST)
 
 
-        # # TODO: sms_status = third_party.send_sms(code=code, phone=phone)
+        # sms_status = third_party.send_sms(code=code, phone=phone)
         # sms_status = 200
         # if sms_status != 200:
         #     return Response({

@@ -12,8 +12,6 @@ from users.serializers import UserProfileSerializer
 
 class UserInfoViewSet(ModelViewSet):
     """
-    用户接口，目前对于增删改的权限控制不完善！！！
-    # TODO: permission control.
     需要权限
         1. 'Basic Auth'
         2. JWT认证，请求头Authorization：JWT + 登陆返回的Token
