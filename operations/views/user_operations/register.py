@@ -30,7 +30,6 @@ class SendSmsVerifyCodeViewSet(GenericViewSet, CreateModelMixin):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        #phone = serializer.validated_data["phone"]
         email = serializer.validated_data['email']
 
         # TODO: third_party = ThirdParty(APIKEY)
@@ -46,6 +45,7 @@ class SendSmsVerifyCodeViewSet(GenericViewSet, CreateModelMixin):
                 'msg': '发送成功'
             }, status=status.HTTP_200_OK)
         except Exception as e:
+            print(e)
             return Response({
                 "success": False,
                 "code": 400,

@@ -13,4 +13,4 @@ class TitleExamineCreateSerializer(serializers.ModelSerializer):
 class TitleExamineDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = TitleExamine
-        fields = ['title', 'real_name', 'school_id_card', 'school', 'is_approved', 'is_rejected', 'reject_reason']
+        fields = ['id', 'title', 'real_name', 'school_id_card', 'school', 'is_approved', 'is_rejected', 'reject_reason']
