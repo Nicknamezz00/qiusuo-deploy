@@ -5,8 +5,9 @@ RUN  sed -i s@/archive.ubuntu.com/@/mirrors.tuna.tsinghua.edu.cn/@g /etc/apt/sou
 #sed -i s@/security.ubuntu.com/@/mirrors.tuna.tsinghua.edu.cn/@g /etc/apt/sources.list
 RUN  apt clean
 RUN  apt update
-RUN apt install -y build-essential python3 python3-pip pip
-RUN apt install python3-dev default-libmysqlclient-dev -y
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt install -y build-essential python3 python3-pip pip python3-dev default-libmysqlclient-dev tzdata -y
+
 # 拷贝当前项目到/app目录下
 COPY . /app
 
@@ -18,6 +19,10 @@ WORKDIR /app
 # && pip install --upgrade pip \
 # pip install scipy 等数学包失败，可使用 apk add py3-scipy 进行， 参考安装 https://pkgs.alpinelinux.org/packages?name=py3-scipy&branch=v3.13
 RUN pip install --user -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple
+
+
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
 
 ENV position online
 # 设定对外端口
