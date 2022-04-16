@@ -42,8 +42,6 @@ class UserInfo(User):
         on_delete=models.DO_NOTHING,
         db_constraint=False)
 
-    # is_login = models.BooleanField(default=False)
-
     # permissions:
     is_manual_authenticated = models.BooleanField(
         '人工认证', default=False, help_text=(

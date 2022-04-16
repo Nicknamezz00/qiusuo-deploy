@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'favorite',
     'examine',
     'feedback',
+    'informations',
 
     # --- DRF ---
     'rest_framework',
@@ -93,7 +95,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# ENV_DEFINE = os.getenv('position')
+ENV_DEFINE = os.getenv('position')
 # if ENV_DEFINE == 'online':
 DATABASES = {
     'default': {
@@ -182,7 +184,8 @@ REST_FRAMEWORK = {
         # 'backend.authentication.ExpiringTokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'users.permissions.IsManualAuthenticatedOrReadOnly',
     ],
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
