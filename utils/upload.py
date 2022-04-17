@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
 
 import backend.settings
-from utils.CosSingleCilent import StorageClient
+from utils.CosSingleCilent import cos
 
 @require_http_methods(["POST"])
 def upload_avatar(request):
@@ -38,7 +38,9 @@ def handle_file(file, filename, path):
         for chunk in file.chunks():
             destination.write(chunk)
     path = path + filename
-    StorageClient.write_file(path, localpath)
-    os.remove(localpath)
+    print("start to print")
+    cos.write_file(filepath=path, localpath=localpath)
+    print("finish to print")
+    os.remove(localpath + filename)
 
 
