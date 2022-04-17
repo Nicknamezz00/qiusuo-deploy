@@ -47,7 +47,7 @@ def send_email(request, *args, **kwargs):
     print('init stmp client')
     smtp = smtplib.SMTP()
     print('connect stmp server')
-    smtp.connect('smtp.qq.com', 25)
+    smtp.connect('smtp.qq.com', 587)
     print('login stmp server')
     try:
         smtp.login(user=username, password=password)
