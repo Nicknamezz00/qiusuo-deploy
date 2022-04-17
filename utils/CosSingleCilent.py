@@ -31,7 +31,7 @@ class StorageClient:
 
     def write_file(self, filepath, filename, localpath):
         self.FreshSecret()
-        with open(localpath, 'rb') as fp:
+        with open(localpath+filename, 'rb') as fp:
             response = self.cos_client.put_object(
                 Bucket=self.bucket,
                 Body=fp,

@@ -21,7 +21,7 @@ def upload_avatar(request):
             handle_file(request.FILES['avatar'], str(request.FILES['avatar'].name), '/media/avatar/')
             return JsonResponse({
                 'status': 'success',
-                'url': '/media/avatar/' + str(request.FILES['avatar'].name),
+                'url': 'https://7072-prod-4gtr7e0o54f0f5ca-1309638607.tcb.qcloud.la/media/avatar/' + str(request.FILES['avatar'].name),
             }, status=200)
         else:
             return JsonResponse({
