@@ -39,5 +39,3 @@ class StorageClient:
                 Body=fp,
                 key=filepath,
             )
-
-cos = StorageClient()
