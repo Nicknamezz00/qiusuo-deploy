@@ -37,9 +37,8 @@ def handle_file(file, filename, path):
     with open(localpath + filename, 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
-    path = path + filename
     print("start to print")
-    cos.write_file(filepath=path, localpath=localpath)
+    cos.write_file(filepath=path, filename=filename, localpath=localpath)
     print("finish to print")
     os.remove(localpath + filename)
 

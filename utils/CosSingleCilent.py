@@ -25,17 +25,17 @@ class StorageClient:
         self.secret_key = msg["TmpSecretKey"]
         self.secret_token = msg["Token"]
         self.ExpiredTime = int(msg["ExpiredTime"])
-        self.cos_config = CosConfig(Region=self.region, Secret_id=self.secret_id, SecretKey=self.secret_key,
+        self.cos_config = CosConfig(Region=self.region, SecretId=self.secret_id, SecretKey=self.secret_key,
                                     Token=self.secret_token)
         self.cos_client = CosS3Client(self.cos_config)
 
-    def write_file(self, filepath, localpath):
+    def write_file(self, filepath, filename, localpath):
         self.FreshSecret()
         with open(localpath, 'rb') as fp:
             response = self.cos_client.put_object(
                 Bucket=self.bucket,
                 Body=fp,
-                key=filepath,
+                key=filepath+filename,
             )
 
 
