@@ -3,12 +3,6 @@ from rest_framework import serializers
 from subjects.models import Subject
 
 
-class InnerChildSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Subject
-        fields = ['pk', 'level', 'cate_name']
-
-
 class SubjectSerializer(serializers.ModelSerializer):
     parent = serializers.SlugRelatedField(
         required=False,
@@ -21,7 +15,7 @@ class SubjectSerializer(serializers.ModelSerializer):
 
     def get_childs(self, obj):
         all_childs = Subject.objects.filter(parent__cate_name=obj.cate_name)
-        childs_ser = InnerChildSerializer(all_childs, many=True)
+        childs_ser = SubjectSerializer(all_childs, many=True)
         return childs_ser.data
 
     def validate(self, attrs):
@@ -49,3 +43,4 @@ class SubjectSerializer(serializers.ModelSerializer):
         model = Subject
         depth = 3
         fields = ['id', 'level', 'cate_name', 'parent', 'childs']
+
