@@ -42,7 +42,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate_code(self, code):
         """验证码校验"""
         verify_records = VerifyCode.objects.filter(
-            phone=self.initial_data["phone"]).order_by("-add_time")
+            email=self.initial_data["email"]).order_by("-add_time")
 
         # 发送时间在一分钟之内的
         if verify_records:
