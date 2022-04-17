@@ -7,13 +7,11 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from users.models import UserInfo, UserTitle
-from users.serializers import UserProfileSerializer
+from users.serializers import UserProfileSerializer, UserTitleSerializer
 
 
 class UserInfoViewSet(ModelViewSet):
     """
-    用户接口，目前对于增删改的权限控制不完善！！！
-    # TODO: permission control.
     需要权限
         1. 'Basic Auth'
         2. JWT认证，请求头Authorization：JWT + 登陆返回的Token
@@ -47,7 +45,7 @@ class UserTitleViewSet(ModelViewSet):
     默认排序：'id'（降序），'owner'（增序）
     """
     queryset = UserTitle.objects.all()
-    serializer_class = UserProfileSerializer
+    serializer_class = UserTitleSerializer
 
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filter_fields = ['owner']
