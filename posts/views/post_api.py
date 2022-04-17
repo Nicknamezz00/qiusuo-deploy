@@ -13,7 +13,6 @@ from posts.serializers import PostSerializer
 
 class PostViewSet(ModelViewSet):
     """
-    # TODO: permission control.
     帖子接口，需要权限。
         1. 'Basic Auth'
         2. JWT认证，请求头Authorization：JWT + 登陆返回的Token
@@ -34,7 +33,7 @@ class PostViewSet(ModelViewSet):
     def thumbs_up(self, request, pk):
         """
         通过<pk>索引，对指定帖子点赞。
-        暂时没有限制点赞次数（一个人可以让点赞数不停增加，maybe前端考虑限制一次，还要实现throttle，or TODO.）
+        暂时没有限制点赞次数（一个人可以让点赞数不停增加，maybe前端考虑限制一次，还要实现throttle）
         """
         instance = Post.objects.get(id=pk)
         if not instance:

@@ -41,6 +41,13 @@ class UserInfo(User):
         related_name='subject_set',
         on_delete=models.DO_NOTHING,
         db_constraint=False)
+    school = models.ForeignKey(
+        to='informations.School',
+        null=True,
+        blank=True,
+        related_name='school',
+        on_delete=models.DO_NOTHING,
+        db_constraint=False)
 
     # permissions:
     is_manual_authenticated = models.BooleanField(
