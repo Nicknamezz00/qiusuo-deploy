@@ -4,7 +4,9 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
 
 import backend.settings
+from urllib.request import quote
 from utils.CosSingleCilent import cos
+
 
 @require_http_methods(["POST"])
 def upload_avatar(request):
@@ -21,7 +23,8 @@ def upload_avatar(request):
             handle_file(request.FILES['avatar'], str(request.FILES['avatar'].name), '/media/avatar/')
             return JsonResponse({
                 'status': 'success',
-                'url': 'https://7072-prod-4gtr7e0o54f0f5ca-1309638607.tcb.qcloud.la/media/avatar/' + str(request.FILES['avatar'].name),
+                'url': 'https://7072-prod-4gtr7e0o54f0f5ca-1309638607.tcb.qcloud.la/media/avatar/' + quote(str(
+                    request.FILES['avatar'].name)),
             }, status=200)
         else:
             return JsonResponse({
@@ -41,5 +44,3 @@ def handle_file(file, filename, path):
     cos.write_file(filepath=path, filename=filename, localpath=localpath)
     print("finish to print")
     os.remove(localpath + filename)
-
-
