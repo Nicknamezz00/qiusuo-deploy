@@ -35,7 +35,7 @@ class StorageClient:
             response = self.cos_client.put_object(
                 Bucket=self.bucket,
                 Body=fp,
-                key=filepath+filename,
+                Key=filepath+filename,
             )
 
 
