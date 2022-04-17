@@ -34,7 +34,7 @@ def handle_file(file, filename, path):
     localpath = os.getcwd() + path
     if not os.path.exists(localpath):
         os.makedirs(localpath)
-    with open(path + filename, 'wb+') as destination:
+    with open(localpath + filename, 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
     path = path + filename
