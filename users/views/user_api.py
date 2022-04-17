@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from users.models import UserInfo, UserTitle
-from users.serializers import UserProfileSerializer
+from users.serializers import UserProfileSerializer, UserTitleSerializer
 
 
 class UserInfoViewSet(ModelViewSet):
@@ -45,7 +45,7 @@ class UserTitleViewSet(ModelViewSet):
     默认排序：'id'（降序），'owner'（增序）
     """
     queryset = UserTitle.objects.all()
-    serializer_class = UserProfileSerializer
+    serializer_class = UserTitleSerializer
 
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filter_fields = ['owner']

@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
+from informations.models import School
+from informations.serializers import SchoolSerializer
 from posts.models import Post
 from subjects.models import Subject
 from users.models import UserInfo, UserTitle
@@ -38,16 +40,19 @@ class UserProfileSerializer(serializers.ModelSerializer):
         slug_field='cate_name',
         required=False)
     title_examined_set = TitleExaminedSetSerializer(many=True, read_only=True)
+    school = serializers.SlugRelatedField(queryset=School.objects.all(), slug_field='school_name', required=False)
+
+    def get_school(self, school):
+        school_ser = SchoolSerializer(school)
+        return school_ser.data
 
     # TODO: subject会被覆盖
-    # 超级用户手动创建用户
     def create(self, validated_data):
         user = super().create(validated_data)
-        user.set_password(validated_data['password'])
+        user.password = validated_data['password']
         user.save()
 
         # Add user to default unauthenticated group.
-
         return user
 
     def validate(self, attrs):
