@@ -100,7 +100,7 @@ ENV_DEFINE = os.getenv('position')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'qiusuo',
+        'NAME': 'qiusuo_v2',
         'USER': 'root',
         'PASSWORD': '20020704Zz',
         'HOST': 'sh-cynosdbmysql-grp-5y6po95m.sql.tencentcdb.com',
@@ -110,8 +110,12 @@ DATABASES = {
 # else:
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'local_qiusuo',
+#         'USER': 'root',
+#         'PASSWORD': 'root',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306',
 #     }
 # }
 

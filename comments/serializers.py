@@ -1,13 +1,8 @@
 from rest_framework import serializers
 
 from comments.models import Comment
+from users import serializers as users_ser
 from users.models import UserInfo
-
-
-class InnerAuthorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserInfo
-        fields = '__all__'
 
 
 class InnerChildSerializer(serializers.ModelSerializer):
@@ -19,9 +14,15 @@ class InnerChildSerializer(serializers.ModelSerializer):
             all_child_comments, many=True)
         return child_comments_ser.data
 
+    def to_representation(self, instance):
+        res = super().to_representation(instance=instance)
+        author_ser = users_ser.UserProfileSerializer(instance=instance.author)
+        res['author'] = author_ser.data
+        return res
+
     class Meta:
         model = Comment
-        fields = ['pk', 'author', 'created_at', 'content', 'child_comment']
+        fields = '__all__'
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -51,7 +52,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         res = super().to_representation(instance=instance)
-        author_ser = InnerAuthorSerializer(instance=instance.author)
+        author_ser = users_ser.UserProfileSerializer(instance=instance.author)
         res['author'] = author_ser.data
         return res
 

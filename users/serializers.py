@@ -11,12 +11,6 @@ from users.models import UserInfo, UserTitle
 from examine.models import TitleExamine
 
 
-class InnerPostSetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Post
-        fields = ['id', 'title', 'created_at', 'category', 'status']
-
-
 class TitleExaminedSetSerializer(serializers.ModelSerializer):
     # add title_examined_set
     def get_queryset(self):
@@ -40,13 +34,38 @@ class UserProfileSerializer(serializers.ModelSerializer):
         slug_field='cate_name',
         required=False)
     title_examined_set = TitleExaminedSetSerializer(many=True, read_only=True)
-    school = serializers.SlugRelatedField(queryset=School.objects.all(), slug_field='school_name', required=False)
+    school = serializers.SlugRelatedField(
+        queryset=School.objects.all(),
+        slug_field='school_name',
+        required=False)
 
-    def get_school(self, school):
-        school_ser = SchoolSerializer(school)
-        return school_ser.data
+    # def get_area1(self, obj):
+    #     area1 = self.initial_data.get('area1')
+    #     if not area1:
+    #         return None
+    #     subject = Subject.objects.get(cate_name=area1)
+    #     obj.area1 = subject
+    #     obj.save()
+    #     return subject.cate_name
+    #
+    # def get_area2(self, obj):
+    #     area2 = self.initial_data.get('area2')
+    #     if not area2:
+    #         return None
+    #     subject = Subject.objects.get(cate_name=area2)
+    #     obj.area2 = subject
+    #     obj.save()
+    #     return subject.cate_name
+    #
+    # def get_area3(self, obj):
+    #     area3 = self.initial_data.get('area3')
+    #     if not area3:
+    #         return None
+    #     subject = Subject.objects.get(cate_name=area3)
+    #     obj.area3 = subject
+    #     obj.save()
+    #     return subject.cate_name
 
-    # TODO: subject会被覆盖
     def create(self, validated_data):
         user = super().create(validated_data)
         user.password = validated_data['password']
@@ -56,14 +75,28 @@ class UserProfileSerializer(serializers.ModelSerializer):
         return user
 
     def validate(self, attrs):
-        raw_password = attrs['password']
+        raw_password = attrs.get('password')
         if raw_password:
             attrs['password'] = make_password(raw_password)
+
         return attrs
+
+    def to_representation(self, instance):
+        res = super().to_representation(instance=instance)
+
+        school_ser = SchoolSerializer(instance.school)
+        res['school'] = school_ser.data
+
+        return res
 
     class Meta:
         model = UserInfo
-        fields = '__all__'
+        exclude = [
+            'password',
+            'created_at',
+            'groups',
+            'user_permissions',
+            'is_superuser']
 
 
 class UserTokenSerializer(serializers.ModelSerializer):

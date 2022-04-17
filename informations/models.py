@@ -21,6 +21,9 @@ class School(models.Model):
     department = models.CharField(max_length=255, blank=True, null=True)
     other = models.CharField(max_length=255, blank=True, null=True)
 
+    def __str__(self):
+        return self.school_name
+
     class Meta:
         managed = False
         db_table = 'school'
