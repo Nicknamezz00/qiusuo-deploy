@@ -1,6 +1,6 @@
 import os
 
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 
 import backend.settings
@@ -20,7 +20,9 @@ def upload_avatar(request):
                     'status': 'error',
                     'message': '头像大小在1k和2MB之间哦.',
                 }, status=400)
-            handle_file(request.FILES['avatar'], str(request.FILES['avatar'].name), '/media/avatar/')
+            handle_file(
+                request.FILES['avatar'], str(
+                    request.FILES['avatar'].name), '/media/avatar/')
             return JsonResponse({
                 'status': 'success',
                 'url': 'https://7072-prod-4gtr7e0o54f0f5ca-1309638607.tcb.qcloud.la/media/avatar/' + quote(str(

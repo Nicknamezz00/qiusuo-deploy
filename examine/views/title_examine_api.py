@@ -1,4 +1,3 @@
-from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from examine.fliter import TitleExaminedFilter
@@ -31,4 +30,3 @@ class TitleExamineViewSet(ModelViewSet):
 
     filter_fields = ['owner']
     filter_class = TitleExaminedFilter
-

@@ -83,11 +83,17 @@ class RegisterSerializer(serializers.ModelSerializer):
 class SmsVerifyCodeSerializer(serializers.Serializer):
     phone = serializers.CharField(max_length=11, required=False)
     email = serializers.EmailField(required=False)
-    action = serializers.CharField(required=False)
+    action = serializers.CharField(required=True, error_messages={
+        "blank": "action不能为空，请选择register或forget",
+        "required": "action不能为空，请选择register或forget"
+    })
 
     def validate_phone(self, phone):
         # 手机是否注册
-        if self.initial_data['type'] != 'forget' and UserInfo.objects.filter(phone=phone).count():
+        action = self.initial_data.get('action')
+
+        if action and action != 'forget' and UserInfo.objects.filter(
+                phone=phone).count():
             raise ValidationError("用户名已存在")
 
         # 验证手机号码
@@ -104,7 +110,10 @@ class SmsVerifyCodeSerializer(serializers.Serializer):
 
     def validate_email(self, email):
         # email是否注册
-        if self.initial_data['type'] != 'forget' and UserInfo.objects.filter(email=email).count():
+        action = self.initial_data.get('action')
+
+        if action and action != 'forget' and UserInfo.objects.filter(
+                email=email).count():
             raise ValidationError("用户名已存在")
 
         # 验证手机号码
@@ -127,7 +136,7 @@ class LoginSerializer(serializers.ModelSerializer):
         error_messages={
             'blank': '请输入手机号/邮箱',
             'required': '请输入手机号/邮箱'
-        },help_text='用户名')
+        }, help_text='用户名')
 
     password = serializers.CharField(
         min_length=6,

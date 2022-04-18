@@ -14,4 +14,10 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Feedback
-        fields = ['user', 'title', 'content', 'is_processing', 'reply_set', 'is_finished']
+        fields = [
+            'user',
+            'title',
+            'content',
+            'is_processing',
+            'reply_set',
+            'is_finished']

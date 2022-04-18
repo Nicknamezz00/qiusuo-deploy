@@ -1,16 +1,15 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
-from rest_framework.decorators import permission_classes
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
 
+from backend import helper
 from comments.filters import CommentFilter
 from comments.models import Comment
 from comments.serializers import CommentSerializer
 
 
-class CommentViewSet(ModelViewSet):
+class CommentViewSet(helper.MyModelViewSet):
     """
     评论接口，需要权限。
         1. 'Basic Auth'
@@ -42,10 +41,3 @@ class CommentViewSet(ModelViewSet):
         data['code'] = 200
         data['success'] = True
         return Response(data=data, status=status.HTTP_200_OK)
-
-    def perform_update(self, serializer):
-        serializer.save()
-
-    def partial_update(self, request, *args, **kwargs):
-        kwargs['partial'] = True
-        return self.update(request, *args, **kwargs)
