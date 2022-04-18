@@ -3,12 +3,9 @@ import os
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 
-<<<<<<< Updated upstream
 import backend.settings
-=======
 from urllib.request import quote
 from utils.CosSingleCilent import cos
->>>>>>> Stashed changes
 
 
 @require_http_methods(["POST"])
