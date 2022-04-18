@@ -16,7 +16,7 @@ from users import permissions as user_permissions
                      user_permissions.IsManualAuthenticatedOrReadOnly])
 class CommentViewSet(helper.MyModelViewSet):
     """
-    评论接口，需要权限。
+    未实名用户不可以评论。
         1. 'Basic Auth'
         2. JWT认证，请求头Authorization：JWT + 登陆返回的Token
     默认排序字段：'created_at'，最新发布顺序
@@ -33,17 +33,7 @@ class CommentViewSet(helper.MyModelViewSet):
     search_fields = ['=author__username', 'post_id']
 
     def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(
-            instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-
-        if getattr(instance, '_prefetched_objects_cache', None):
-            instance._prefetched_objects_cache = {}
-
-        data = serializer.data
+        data = super().update(request, *args, **kwargs).data
         data['code'] = 200
         data['success'] = True
         return Response(data=data, status=status.HTTP_200_OK)

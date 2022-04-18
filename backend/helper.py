@@ -36,5 +36,8 @@ class MyModelViewSet(viewsets.ModelViewSet):
             'msg': '删除成功'
         }, status=status.HTTP_204_NO_CONTENT)
 
-    def perform_destroy(self, instance):
-        instance.delete()
+    def update(self, request, *args, **kwargs):
+        data = super().update(request, *args, **kwargs).data
+        data['code'] = 200
+        data['success'] = True
+        return Response(data=data, status=status.HTTP_200_OK)

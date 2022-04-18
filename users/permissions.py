@@ -1,6 +1,7 @@
 from rest_framework.permissions import BasePermission
 
 from users.models import UserInfo
+from utils.permission_control import staff
 
 SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')
 
@@ -32,6 +33,8 @@ class IsManualAuthenticatedOrReadOnly(BasePermission):
                 user_info.is_manual_authenticated)
 
     def has_object_permission(self, request, view, obj):
-
         user = request.user
+        if staff(user):
+            return True
+
         return user.id == obj.author_id
