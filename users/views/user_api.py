@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
 from rest_framework import permissions
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -60,10 +61,10 @@ class UserInfoViewSet(ModelViewSet):
         }, headers=headers, status=status.HTTP_200_OK)
 
     @action(methods=['POST'], detail=True,
-            permission_classes=[user_permissions.IsManualAuthenticatedOrReadOnly])
+            permission_classes=[IsAuthenticated])
     def upload_avatar(self, request, pk):
         """
-        上传头像，用户需通过人工认证。
+        未实名和实名用户均可以上传头像。
         """
         from utils.upload import upload_avatar
         upload_avatar(request)
