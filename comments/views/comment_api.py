@@ -1,14 +1,19 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
+from rest_framework.decorators import permission_classes
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.response import Response
 
 from backend import helper
 from comments.filters import CommentFilter
 from comments.models import Comment
+from comments.permissions import CommentPermission
 from comments.serializers import CommentSerializer
+from users import permissions as user_permissions
 
 
+@permission_classes([CommentPermission,
+                     user_permissions.IsManualAuthenticatedOrReadOnly])
 class CommentViewSet(helper.MyModelViewSet):
     """
     评论接口，需要权限。
@@ -30,7 +35,8 @@ class CommentViewSet(helper.MyModelViewSet):
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 

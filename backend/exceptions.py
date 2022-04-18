@@ -1,7 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import DataError
 from rest_framework import status
-from rest_framework.exceptions import ValidationError, APIException
+from rest_framework.exceptions import ValidationError, APIException, PermissionDenied
 from rest_framework.response import Response
 from rest_framework.views import exception_handler
 
@@ -35,4 +35,9 @@ def custom_exception_handler(exc, handler):
             'error_msg': exc.args,
         }, status=status.HTTP_400_BAD_REQUEST)
 
+    if isinstance(exc, PermissionDenied):
+        response = Response(data={
+            'code': 403,
+            'error_msg': exc.detail
+        }, status=status.HTTP_403_FORBIDDEN)
     return response

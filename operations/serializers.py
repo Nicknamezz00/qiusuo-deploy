@@ -1,7 +1,6 @@
 import re
 from datetime import datetime, timedelta
 
-from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -41,8 +40,20 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def validate_code(self, code):
         """验证码校验"""
-        verify_records = VerifyCode.objects.filter(
-            email=self.initial_data["email"]).order_by("-add_time")
+        email = self.initial_data.get('email')
+        phone = self.initial_data.get('phone')
+
+        verify_records = None
+
+        if email:
+            verify_records = VerifyCode.objects.filter(
+                email=email).order_by("-add_time")
+        if phone:
+            verify_records = VerifyCode.objects.filter(
+                phone=phone).order_by("-add_time")
+
+        if not verify_records:
+            raise serializers.ValidationError("未接受到验证码")
 
         # 发送时间在一分钟之内的
         if verify_records:
@@ -54,9 +65,6 @@ class RegisterSerializer(serializers.ModelSerializer):
                 raise ValidationError("验证码过期")
             if last_record.code != code:
                 raise ValidationError("验证码错误（已接受到）")
-            # return code 仅用作验证
-        else:
-            raise ValidationError("验证码错误")
 
     def validate(self, attrs):
         password = attrs['password']
@@ -92,40 +100,40 @@ class SmsVerifyCodeSerializer(serializers.Serializer):
         # 手机是否注册
         action = self.initial_data.get('action')
 
-        if action and action != 'forget' and UserInfo.objects.filter(
+        if action != 'forget' and UserInfo.objects.filter(
                 phone=phone).count():
-            raise ValidationError("用户名已存在")
+            raise serializers.ValidationError("用户名已存在")
 
         # 验证手机号码
-        # if not re.match(REGEX_MOBILE, phone):
-        #     raise ValidationError("手机号码非法")
+        if not re.match(constants.REGEX_MOBILE, phone):
+            raise serializers.ValidationError("请输入正确的手机号")
 
         # 验证码发送频率
         one_minutes_ago = datetime.now() - timedelta(hours=0, minutes=1,
                                                      seconds=0)
         if VerifyCode.objects.filter(add_time__gt=one_minutes_ago,
                                      phone=phone).count():
-            raise ValidationError("距离上一次发送未超过60s")
+            raise serializers.ValidationError("距离上一次发送未超过60s")
         return phone
 
     def validate_email(self, email):
         # email是否注册
         action = self.initial_data.get('action')
 
-        if action and action != 'forget' and UserInfo.objects.filter(
+        if action != 'forget' and UserInfo.objects.filter(
                 email=email).count():
-            raise ValidationError("用户名已存在")
+            raise serializers.ValidationError("用户名已存在")
 
-        # 验证手机号码
-        # if not re.match(REGEX_MOBILE, phone):
-        #     raise ValidationError("手机号码非法")
+        # 验证邮箱
+        if not re.match(constants.REGEX_EMAIL, email):
+            raise serializers.ValidationError("请输入正确的邮箱")
 
         # 验证码发送频率
         one_minutes_ago = datetime.now() - timedelta(hours=0, minutes=1,
                                                      seconds=0)
         if VerifyCode.objects.filter(add_time__gt=one_minutes_ago,
                                      email=email).count():
-            raise ValidationError("距离上一次发送未超过60s")
+            raise serializers.ValidationError("距离上一次发送未超过60s")
         return email
 
 
@@ -172,7 +180,7 @@ class LoginSerializer(serializers.ModelSerializer):
             user = UserInfo.objects.filter(username=username).first()
 
         if not user:
-            raise ValidationError('用户名不存在，用户名一般为手机号/邮箱号')
+            raise serializers.ValidationError('用户名不存在，用户名一般为手机号/邮箱号')
 
         attrs['password'] = make_password(password)
 
