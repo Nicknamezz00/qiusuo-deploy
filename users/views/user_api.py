@@ -8,7 +8,6 @@ from rest_framework.viewsets import ModelViewSet
 
 from users.models import UserInfo, UserTitle
 from users.serializers import UserTitleSerializer, UserProfileSerializer, ResetPasswordSerializer
-from utils.send_email import send_email
 
 
 class UserInfoViewSet(ModelViewSet):

@@ -16,7 +16,7 @@ class SendSmsVerifyCodeViewSet(GenericViewSet, CreateModelMixin):
     发送短信验证码。
     两个参数：
         用户名（email or phone，自动校验）
-        type（`forget` or `register`)，表明当前发邮件的行为
+        action（`forget` or `register`)，表明当前发邮件的行为
     """
     serializer_class = SmsVerifyCodeSerializer
 

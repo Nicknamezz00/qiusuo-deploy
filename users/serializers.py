@@ -1,17 +1,16 @@
 from datetime import timedelta
 
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import User
 from django.utils import timezone
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
+from examine.models import TitleExamine
 from informations.models import School
 from informations.serializers import SchoolSerializer
 from operations.models import VerifyCode
 from subjects.models import Subject
 from users.models import UserInfo, UserTitle
-from examine.models import TitleExamine
 
 
 class TitleExaminedSetSerializer(serializers.ModelSerializer):
@@ -42,39 +41,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
         slug_field='school_name',
         required=False)
 
-    # def get_area1(self, obj):
-    #     area1 = self.initial_data.get('area1')
-    #     if not area1:
-    #         return None
-    #     subject = Subject.objects.get(cate_name=area1)
-    #     obj.area1 = subject
-    #     obj.save()
-    #     return subject.cate_name
-    #
-    # def get_area2(self, obj):
-    #     area2 = self.initial_data.get('area2')
-    #     if not area2:
-    #         return None
-    #     subject = Subject.objects.get(cate_name=area2)
-    #     obj.area2 = subject
-    #     obj.save()
-    #     return subject.cate_name
-    #
-    # def get_area3(self, obj):
-    #     area3 = self.initial_data.get('area3')
-    #     if not area3:
-    #         return None
-    #     subject = Subject.objects.get(cate_name=area3)
-    #     obj.area3 = subject
-    #     obj.save()
-    #     return subject.cate_name
-
     def create(self, validated_data):
         user = super().create(validated_data)
         user.password = validated_data['password']
+        # TODO: Consider add user to some default unauthenticated group.
         user.save()
-
-        # Add user to default unauthenticated group.
         return user
 
     def validate(self, attrs):
@@ -141,7 +112,8 @@ class ResetPasswordSerializer(serializers.Serializer):
     def validate_code(self, code):
         """验证码校验"""
         email = self.instance.email
-        verify_records = VerifyCode.objects.filter(email=email).order_by("-add_time")
+        verify_records = VerifyCode.objects.filter(
+            email=email).order_by("-add_time")
 
         # 发送时间在一分钟之内的
         if verify_records:

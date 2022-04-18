@@ -4,15 +4,14 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
+from backend import helper
 from posts.filters import PostFilter
 from posts.models import Post
 from posts.serializers import PostSerializer
 
 
-class PostViewSet(ModelViewSet):
+class PostViewSet(helper.MyModelViewSet):
     """
     帖子接口，需要权限。
         1. 'Basic Auth'

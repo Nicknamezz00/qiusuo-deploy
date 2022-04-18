@@ -1,6 +1,5 @@
 from django.contrib import auth
 from rest_framework import status, permissions
-from rest_framework.authtoken.models import Token
 from rest_framework.decorators import permission_classes
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response

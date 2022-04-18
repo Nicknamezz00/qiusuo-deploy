@@ -19,12 +19,13 @@ class UserInfo(User):
     phone = models.CharField(
         max_length=11,
         null=True,
-        blank=False,
+        blank=True,
         default=None,
         verbose_name=u'手机号码')  # 电话
     gender = models.IntegerField(
         choices=SEX_CHOICE,
         null=True,
+        blank=True,
         verbose_name=u'性别')  # 性别
     intro = models.CharField(
         null=True,

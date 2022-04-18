@@ -1,6 +1,4 @@
 import smtplib
-
-import smtplib
 from email.mime.text import MIMEText
 from random import choice
 

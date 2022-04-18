@@ -1,9 +1,14 @@
 import os
 
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 
+<<<<<<< Updated upstream
 import backend.settings
+=======
+from urllib.request import quote
+from utils.CosSingleCilent import cos
+>>>>>>> Stashed changes
 
 
 @require_http_methods(["POST"])
@@ -18,7 +23,9 @@ def upload_avatar(request):
                     'status': 'error',
                     'message': '头像大小在1k和2MB之间哦.',
                 }, status=400)
-            handle_file(request.FILES['avatar'], str(request.FILES['avatar'].name), '/media/avatar/')
+            handle_file(
+                request.FILES['avatar'], str(
+                    request.FILES['avatar'].name), '/media/avatar/')
             return JsonResponse({
                 'status': 'success',
                 'url': '/media/avatar/' + str(request.FILES['avatar'].name),
