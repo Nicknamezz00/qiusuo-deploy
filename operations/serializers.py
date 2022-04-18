@@ -199,3 +199,10 @@ class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInfo
         fields = ['username', 'password', 'user_info']
+
+
+class AvatarUploadSerializer(serializers.Serializer):
+    avatar = serializers.FileField()
+
+    class Meta:
+        fields = ['file']

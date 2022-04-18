@@ -1,20 +1,17 @@
 import os
 
 from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods
 
-import backend.settings
 from urllib.request import quote
 from utils.CosSingleCilent import cos
 
 
-@require_http_methods(["POST"])
 def upload_avatar(request):
     """
     Uploads a avatar to the server.
     """
     if request.method == 'POST':
-        if request.FILES['avatar']:
+        if hasattr(request, 'FILES'):
             if request.FILES['avatar'].size < 1024 or request.FILES['avatar'].size > 1024 * 1024 * 2:
                 return JsonResponse({
                     'status': 'error',
@@ -33,6 +30,11 @@ def upload_avatar(request):
                 'status': 'failed',
                 'message': 'No file uploaded.',
             }, status=400)
+    else:
+        return JsonResponse({
+            'status': 'failed',
+            'message': 'only in post method',
+        }, status=400)
 
 
 def handle_file(file, filename, path):
