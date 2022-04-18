@@ -50,7 +50,7 @@ urlpatterns = [
     path('favorite-manage/', include('favorite.urls')),
     path('examine/', include('examine.urls')),
     path('feedback/', include('feedback.urls')),
-    path('informations/', include('informations.urls')),g
+    path('informations/', include('informations.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
