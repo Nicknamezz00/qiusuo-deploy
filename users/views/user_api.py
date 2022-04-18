@@ -3,11 +3,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
+from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from users.models import UserInfo, UserTitle
+from users import permissions as user_permissions
 from users.serializers import UserTitleSerializer, UserProfileSerializer, ResetPasswordSerializer
+
 
 
 class UserInfoViewSet(ModelViewSet):
@@ -25,10 +28,11 @@ class UserInfoViewSet(ModelViewSet):
     filter_fields = ['id', 'username', 'qq', 'email', 'phone']
     ordering_fields = ['id', 'username', 'created_at']
 
-    @action(methods=['GET'], detail=True)
+    @action(methods=['GET'], detail=True,
+            permission_classes=[permissions.AllowAny])
     def logout(self, request, pk):
         """
-        登出，（前端重定向？） 303_SEE_OTHER
+        登出
         """
         auth.logout(request)
         return Response(data={
@@ -37,7 +41,8 @@ class UserInfoViewSet(ModelViewSet):
             'msg': '已登出'
         }, status=status.HTTP_200_OK)
 
-    @action(methods=['POST'], detail=True)
+    @action(methods=['POST'], detail=True,
+            permission_classes=[permissions.IsAuthenticated])
     def reset_password(self, request, pk):
         """
         修改密码。先发送邮箱验证码。
@@ -53,6 +58,15 @@ class UserInfoViewSet(ModelViewSet):
             'code': 200,
             'msg': '修改密码成功！'
         }, headers=headers, status=status.HTTP_200_OK)
+
+    @action(methods=['POST'], detail=True,
+            permission_classes=[user_permissions.IsManualAuthenticatedOrReadOnly])
+    def upload_avatar(self, request, pk):
+        """
+        上传头像，用户需通过人工认证。
+        """
+        from utils.upload import upload_avatar
+        upload_avatar(request)
 
 
 class UserTitleViewSet(ModelViewSet):

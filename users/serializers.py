@@ -134,9 +134,9 @@ class ResetPasswordSerializer(serializers.Serializer):
                               - timedelta(hours=0, minutes=1, seconds=0))
             # 1分钟前发送的
             if one_minute_ago > last_record.add_time:
-                raise serializers.ValidationError("验证码过期")
+                raise serializers.ValidationError("验证码已过期")
             if last_record.code != code:
-                raise serializers.ValidationError("验证码错误（已接受到）")
+                raise serializers.ValidationError("验证码错误（已发送）")
 
     def update(self, instance, validated_data):
         # 修改密码
