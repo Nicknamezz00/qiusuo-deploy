@@ -112,8 +112,20 @@ class ResetPasswordSerializer(serializers.Serializer):
     def validate_code(self, code):
         """验证码校验"""
         email = self.instance.email
-        verify_records = VerifyCode.objects.filter(
-            email=email).order_by("-add_time")
+        phone = self.instance.phone
+
+        verify_records = None
+
+        if email:
+            verify_records = VerifyCode.objects.filter(
+                email=email).order_by('-add_time')
+
+        if phone:
+            verify_records = VerifyCode.objects.filter(
+                phone=phone).order_by('-add_time')
+
+        if not verify_records:
+            raise serializers.ValidationError("验证码错误")
 
         # 发送时间在一分钟之内的
         if verify_records:
@@ -125,11 +137,9 @@ class ResetPasswordSerializer(serializers.Serializer):
                 raise serializers.ValidationError("验证码过期")
             if last_record.code != code:
                 raise serializers.ValidationError("验证码错误（已接受到）")
-            # return code 仅用作验证
-        else:
-            raise serializers.ValidationError("验证码错误")
 
     def update(self, instance, validated_data):
+        # 修改密码
         instance.set_password(validated_data['password'])
         instance.save()
         return instance
