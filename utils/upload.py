@@ -4,6 +4,8 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
 
 import backend.settings
+from urllib.request import quote
+from utils.CosSingleCilent import cos
 
 
 @require_http_methods(["POST"])
@@ -21,7 +23,8 @@ def upload_avatar(request):
             handle_file(request.FILES['avatar'], str(request.FILES['avatar'].name), '/media/avatar/')
             return JsonResponse({
                 'status': 'success',
-                'url': '/media/avatar/' + str(request.FILES['avatar'].name),
+                'url': 'https://7072-prod-4gtr7e0o54f0f5ca-1309638607.tcb.qcloud.la/media/avatar/' + quote(str(
+                    request.FILES['avatar'].name)),
             }, status=200)
         else:
             return JsonResponse({
@@ -31,11 +34,13 @@ def upload_avatar(request):
 
 
 def handle_file(file, filename, path):
-    path = os.getcwd() + path
-    print(path)
-    if not os.path.exists(path):
-        os.makedirs(path)
-    print(path + filename)
-    with open(path + filename, 'wb+') as destination:
+    localpath = os.getcwd() + path
+    if not os.path.exists(localpath):
+        os.makedirs(localpath)
+    with open(localpath + filename, 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
+    print("start to print")
+    cos.write_file(filepath=path, filename=filename, localpath=localpath)
+    print("finish to print")
+    os.remove(localpath + filename)

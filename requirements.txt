@@ -33,3 +33,4 @@ uritemplate==4.1.1
 urllib3==1.26.8
 wincertstore==0.2
 yarg==0.1.9
+cos-python-sdk-v5==1.9.15

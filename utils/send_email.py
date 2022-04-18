@@ -8,8 +8,8 @@ from django.views.decorators.http import require_http_methods
 from rest_framework import status
 from rest_framework.response import Response
 
-username = r'qiusuo_mc@163.com'
-password = 'ZREGFXQPHDNEZGJB'
+username = r'qiusuo-mc@foxmail.com'
+password = 'kqqwciwzuebnciah'
 
 
 def generate_code():
@@ -44,17 +44,18 @@ def send_email(request, *args, **kwargs):
     """
     发送邮箱验证码，返回code
     """
+    print('init stmp client')
     smtp = smtplib.SMTP()
-    smtp.connect('smtp.163.com', 25)
-    smtp.login(user=username, password=password)
-
-    receiver = request.data['email']
-
-    code = generate_code()
-
-    msg = get_message(receiver, code)
-
+    print('connect stmp server')
+    smtp.connect('smtp.qq.com', 587)
+    print('login stmp server')
     try:
+        smtp.login(user=username, password=password)
+        receiver = request.data['email']
+        code = generate_code()
+        print('gen context')
+        msg = get_message(receiver, code)
+        print('start to sent context')
         smtp.sendmail(username, receiver, msg.as_string())
         smtp.quit()
         return code
