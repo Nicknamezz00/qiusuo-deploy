@@ -50,7 +50,7 @@ class UserInfo(User):
         db_constraint=False)
     position = models.CharField('职位', max_length=64, null=True, blank=True)
 
-    area1 = models.OneToOneField(
+    area1 = models.ForeignKey(
         verbose_name='领域1',
         to='subjects.Subject',
         to_field='cate_name',
@@ -59,7 +59,7 @@ class UserInfo(User):
         blank=True,
         on_delete=models.CASCADE,
         db_constraint=False)
-    area2 = models.OneToOneField(
+    area2 = models.ForeignKey(
         verbose_name='领域2',
         to='subjects.Subject',
         to_field='cate_name',
@@ -68,7 +68,7 @@ class UserInfo(User):
         blank=True,
         on_delete=models.CASCADE,
         db_constraint=False)
-    area3 = models.OneToOneField(
+    area3 = models.ForeignKey(
         verbose_name='领域3',
         to='subjects.Subject',
         to_field='cate_name',

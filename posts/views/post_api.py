@@ -5,6 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from posts.filters import PostFilter
 from posts.models import Post
@@ -20,8 +21,6 @@ class PostViewSet(ModelViewSet):
     # 最新的帖子
     queryset = Post.objects.all().order_by('created_at').reverse()
     serializer_class = PostSerializer
-
-    # authentication_classes = [JSONWebTokenAuthentication]
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_class = PostFilter

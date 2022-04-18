@@ -7,7 +7,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from users.models import UserInfo, UserTitle
-from users.serializers import UserProfileSerializer, UserTitleSerializer
+from users.serializers import UserTitleSerializer, UserProfileSerializer, ResetPasswordSerializer
+from utils.send_email import send_email
 
 
 class UserInfoViewSet(ModelViewSet):
@@ -36,6 +37,23 @@ class UserInfoViewSet(ModelViewSet):
             'code': 200,
             'msg': '已登出'
         }, status=status.HTTP_200_OK)
+
+    @action(methods=['POST'], detail=True)
+    def reset_password(self, request, pk):
+        """
+        修改密码。先发送邮箱验证码。
+        """
+        instance = self.get_object()
+        serializer = ResetPasswordSerializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        return Response(data={
+            'success': True,
+            'code': 200,
+            'msg': '修改密码成功！'
+        }, headers=headers, status=status.HTTP_200_OK)
 
 
 class UserTitleViewSet(ModelViewSet):
