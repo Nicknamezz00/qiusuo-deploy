@@ -5,29 +5,6 @@ from users.models import UserInfo
 SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')
 
 
-class PerformActionPermission(BasePermission):
-
-    def has_permission(self, request, view):
-        # 校验JWT表明的身份与相关对象拥有者身份
-        data = request.data
-
-        if view.action == 'create':
-            # this is for `*-create` actions.
-            request_from = request.user.username
-            obj_owner = data.get('author')
-            if obj_owner != request_from:
-                return False
-        # TODO: add some elif here.
-
-        return True
-
-"""
-if view.action == 'create':
-    return HasPerformCreatePermission(...)
-elif view.action == ''
-"""
-
-
 class IsManualAuthenticatedOrReadOnly(BasePermission):
     """
     The request has to be authenticated as a user
