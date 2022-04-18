@@ -95,12 +95,13 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# ENV_DEFINE = os.getenv('position')
+
+ENV_DEFINE = os.getenv('position')
 # if ENV_DEFINE == 'online':
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'qiusuo',
+        'NAME': 'qiusuo_v2',
         'USER': 'root',
         'PASSWORD': '20020704Zz',
         'HOST': 'sh-cynosdbmysql-grp-5y6po95m.sql.tencentcdb.com',
@@ -108,13 +109,15 @@ DATABASES = {
     },
 }
 # else:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#         }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'local_qiusuo',
+#         'USER': 'root',
+#         'PASSWORD': 'root',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306',
 #     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -185,8 +188,8 @@ REST_FRAMEWORK = {
         # 'backend.authentication.ExpiringTokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-        'users.permissions.IsManualAuthenticatedOrReadOnly',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        # 'users.permissions.IsManualAuthenticatedOrReadOnly',
     ],
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',

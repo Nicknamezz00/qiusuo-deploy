@@ -2,7 +2,8 @@ from django.urls import path, include
 from rest_framework import routers
 
 from operations.views.user_operations.login import LoginViewSet
-from operations.views.user_operations.register import RegisterViewSet, SendSmsVerifyCodeViewSet
+from operations.views.user_operations.register import RegisterViewSet
+from operations.views.user_operations.send_code import SendSmsVerifyCodeViewSet
 
 operations_api_router = routers.DefaultRouter()
 

@@ -18,9 +18,12 @@ def root(request):
     return Response({
         'swagger-doc': prefix + 'doc/',
         'docs': prefix + 'docs/',
-        # 'operation-manage': prefix + 'operation-manage/',
-        # 'user-manage': prefix + 'user-manage/',
-        # 'post-manage': prefix + 'post-manage/',
-        # 'comment-manage': prefix + 'comment-manage/',
-        # 'subject-manage': prefix + 'subject-manage/',
+        'operation-manage': prefix + 'operation-manage/',
+        'user-manage': prefix + 'user-manage/',
+        'post-manage': prefix + 'post-manage/',
+        'comment-manage': prefix + 'comment-manage/',
+        'subject-manage': prefix + 'subject-manage/',
+        'informations': prefix + 'informations/',
+        'feedback': prefix + 'feedback/',
+        'examine': prefix + 'examine/',
     })

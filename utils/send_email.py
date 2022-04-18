@@ -33,7 +33,7 @@ def get_message(receiver, code):
     <p>官网：<a href="https://qiusuo-mc.cn">qiusuo-mc.cn</a>
 '''.format(code)
     msg = MIMEText(content, 'html', 'utf-8')
-    msg['Subject'] = '求索-注册验证码'
+    msg['Subject'] = '求索-邮箱验证码'
     msg['From'] = username
     msg['To'] = receiver
     return msg

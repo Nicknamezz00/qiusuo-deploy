@@ -10,7 +10,7 @@ from users.models import UserInfo
 class InnerAuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInfo
-        fields = '__all__'
+        exclude = ['password', 'created_at', ]
 
 
 class PostSerializer(serializers.ModelSerializer):

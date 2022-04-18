@@ -7,13 +7,12 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from users.models import UserInfo, UserTitle
-from users.serializers import UserProfileSerializer
+from users.serializers import UserTitleSerializer, UserProfileSerializer, ResetPasswordSerializer
+from utils.send_email import send_email
 
 
 class UserInfoViewSet(ModelViewSet):
     """
-    用户接口，目前对于增删改的权限控制不完善！！！
-    # TODO: permission control.
     需要权限
         1. 'Basic Auth'
         2. JWT认证，请求头Authorization：JWT + 登陆返回的Token
@@ -39,6 +38,23 @@ class UserInfoViewSet(ModelViewSet):
             'msg': '已登出'
         }, status=status.HTTP_200_OK)
 
+    @action(methods=['POST'], detail=True)
+    def reset_password(self, request, pk):
+        """
+        修改密码。先发送邮箱验证码。
+        """
+        instance = self.get_object()
+        serializer = ResetPasswordSerializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        return Response(data={
+            'success': True,
+            'code': 200,
+            'msg': '修改密码成功！'
+        }, headers=headers, status=status.HTTP_200_OK)
+
 
 class UserTitleViewSet(ModelViewSet):
     """
@@ -47,7 +63,7 @@ class UserTitleViewSet(ModelViewSet):
     默认排序：'id'（降序），'owner'（增序）
     """
     queryset = UserTitle.objects.all()
-    serializer_class = UserProfileSerializer
+    serializer_class = UserTitleSerializer
 
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filter_fields = ['owner']

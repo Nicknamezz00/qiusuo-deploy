@@ -32,7 +32,6 @@ class UserInfo(User):
         default='你还没有写上个人介绍哦',
         max_length=300,
         verbose_name=u'个人介绍')  # 个人介绍
-    post_count = models.IntegerField(default=0)  # 话题数目
     subject = models.ForeignKey(
         verbose_name='专业',
         to='subjects.Subject',
@@ -40,6 +39,43 @@ class UserInfo(User):
         blank=True,
         related_name='subject_set',
         on_delete=models.DO_NOTHING,
+        db_constraint=False)
+    school = models.ForeignKey(
+        verbose_name='学校',
+        to='informations.School',
+        null=True,
+        blank=True,
+        related_name='school',
+        on_delete=models.DO_NOTHING,
+        db_constraint=False)
+    position = models.CharField('职位', max_length=64, null=True, blank=True)
+
+    area1 = models.ForeignKey(
+        verbose_name='领域1',
+        to='subjects.Subject',
+        to_field='cate_name',
+        related_name='+',
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        db_constraint=False)
+    area2 = models.ForeignKey(
+        verbose_name='领域2',
+        to='subjects.Subject',
+        to_field='cate_name',
+        related_name='+',
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        db_constraint=False)
+    area3 = models.ForeignKey(
+        verbose_name='领域3',
+        to='subjects.Subject',
+        to_field='cate_name',
+        related_name='+',
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
         db_constraint=False)
 
     # permissions:

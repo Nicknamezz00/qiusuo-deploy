@@ -42,7 +42,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate_code(self, code):
         """验证码校验"""
         verify_records = VerifyCode.objects.filter(
-            phone=self.initial_data["phone"]).order_by("-add_time")
+            email=self.initial_data["email"]).order_by("-add_time")
 
         # 发送时间在一分钟之内的
         if verify_records:
@@ -83,10 +83,11 @@ class RegisterSerializer(serializers.ModelSerializer):
 class SmsVerifyCodeSerializer(serializers.Serializer):
     phone = serializers.CharField(max_length=11, required=False)
     email = serializers.EmailField(required=False)
+    action = serializers.CharField(required=False)
 
     def validate_phone(self, phone):
         # 手机是否注册
-        if UserInfo.objects.filter(phone=phone).count():
+        if self.initial_data['type'] != 'forget' and UserInfo.objects.filter(phone=phone).count():
             raise ValidationError("用户名已存在")
 
         # 验证手机号码
@@ -103,7 +104,7 @@ class SmsVerifyCodeSerializer(serializers.Serializer):
 
     def validate_email(self, email):
         # email是否注册
-        if UserInfo.objects.filter(email=email).count():
+        if self.initial_data['type'] != 'forget' and UserInfo.objects.filter(email=email).count():
             raise ValidationError("用户名已存在")
 
         # 验证手机号码
