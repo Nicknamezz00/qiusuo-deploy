@@ -1,10 +1,16 @@
 from rest_framework import serializers
 
+from informations.models import School
 from users.models import UserInfo
 from .models import TitleExamine
 
 
 class TitleExamineCreateSerializer(serializers.ModelSerializer):
+    school = serializers.SlugRelatedField(
+        queryset=School.objects.all(),
+        slug_field='school_name',
+        required=False)
+
     class Meta:
         model = TitleExamine
         fields = ['owner', 'title', 'real_name', 'school_id_card', 'school']
