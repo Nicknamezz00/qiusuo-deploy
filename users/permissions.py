@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user
+from django.contrib.auth.models import User
 from rest_framework.permissions import BasePermission
 
 from users.models import UserInfo
@@ -36,5 +37,10 @@ class IsManualAuthenticatedOrReadOnly(BasePermission):
         user = get_user(request)
         if user.is_staff:
             return True
+
+        if isinstance(obj, UserInfo):
+            return obj.user_ptr_id == user.id
+        if isinstance(obj, User):
+            return obj.id == user.id
 
         return user.id == obj.author_id
