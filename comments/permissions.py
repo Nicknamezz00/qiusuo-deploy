@@ -1,5 +1,6 @@
+from django.contrib.auth import get_user
+
 from backend.permissions import PerformActionPermission
-from utils.permission_control import staff
 
 
 class CommentPermission(PerformActionPermission):
@@ -9,13 +10,14 @@ class CommentPermission(PerformActionPermission):
 
     def is_author(self, request, view):
         data = request.data
-        request_from = request.user.username
 
-        if staff(request_from):
+        user = get_user(request)
+
+        if user.is_staff:
             return True
 
         obj_owner = data.get('author')
-        return obj_owner == request_from
+        return obj_owner == user.username
 
     def has_create_permission(self, request, view):
         return self.is_author(request, view)
