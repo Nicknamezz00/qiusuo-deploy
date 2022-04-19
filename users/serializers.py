@@ -44,7 +44,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = super().create(validated_data)
         user.password = validated_data['password']
-        # TODO: Consider add user to some default unauthenticated group.
+        # TODO: 1. Consider add user to some default unauthenticated group.
+        # TODO: 2. Make sure email or phone is unique when
+        #          creating user with staff authorization.
         user.save()
         return user
 
