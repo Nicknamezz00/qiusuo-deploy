@@ -23,14 +23,25 @@ class SendSmsVerifyCodeViewSet(GenericViewSet, CreateModelMixin):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        email = serializer.validated_data['email']
+        email = serializer.validated_data.get('email')
+        phone = serializer.validated_data.get('phone')
 
         # third_party = ThirdParty(APIKEY)
         try:
             code = send_email(request, *args, **kwargs)
 
-            code_record = VerifyCode(code=code, email=email)
-            code_record.save()
+            if email:
+                code_record = VerifyCode(code=code, email=email)
+                code_record.save()
+            if phone:
+                # FIXME
+                # code_record = VerifyCode(code=code, phone=phone)
+                # code_record.save()
+                return Response({
+                    "success": True,
+                    "code": 202,
+                    'msg': r"try with email, I'm still working on it..."
+                }, status=status.HTTP_202_ACCEPTED)
 
             return Response({
                 "success": True,
@@ -38,7 +49,6 @@ class SendSmsVerifyCodeViewSet(GenericViewSet, CreateModelMixin):
                 'msg': '发送成功'
             }, status=status.HTTP_200_OK)
         except Exception as e:
-            print(e)
             return Response({
                 "success": False,
                 "code": 400,

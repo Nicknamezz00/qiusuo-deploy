@@ -30,7 +30,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     """手机 or 邮箱注册"""
     password2 = serializers.CharField(
-        max_length=12,
+        max_length=128,
         min_length=6,
         write_only=True,
         error_messages={
