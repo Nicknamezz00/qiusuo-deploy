@@ -19,7 +19,7 @@ def custom_exception_handler(exc, handler):
         if isinstance(exc, Exception):
             response = Response(data={
                 'code': 500,
-                'msg': '有未处理的异常',
+                'msg': '有未处理的异常，请联系记录相关信息并联系后端',
                 'error_msg': exc.args,
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
