@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user
 
 from backend.permissions import PerformActionPermission
+from utils.permission_control import get_manual_authentication
 
 
 class CommentPermission(PerformActionPermission):
@@ -20,7 +21,13 @@ class CommentPermission(PerformActionPermission):
         return obj_owner == user.username
 
     def has_create_permission(self, request, view):
-        return self.is_author(request, view)
+        user = get_user(request)
+        if user.is_anonymous:
+            return False
+        manual = get_manual_authentication(user)
+        return bool(user and
+                    user.is_active and
+                    user.is_authenticated and manual)
 
     def has_update_permission(self, request, view):
         return self.is_author(request, view)
