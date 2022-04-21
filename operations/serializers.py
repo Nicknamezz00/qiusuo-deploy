@@ -196,6 +196,12 @@ class LoginSerializer(serializers.ModelSerializer):
         else:
             raise ValidationError('密码错误')
 
+    def to_representation(self, instance):
+        res = super().to_representation(instance=instance)
+        res.pop('password')
+        return res
+
+
     class Meta:
         model = UserInfo
         fields = ['username', 'password', 'user_info']
