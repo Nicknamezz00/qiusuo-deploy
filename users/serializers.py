@@ -103,7 +103,7 @@ class ResetPasswordSerializer(serializers.Serializer):
         help_text="验证码")
 
     password = serializers.CharField(
-        max_length=12,
+        max_length=128,
         min_length=6,
         write_only=True,
         error_messages={

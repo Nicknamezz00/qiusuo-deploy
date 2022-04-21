@@ -14,19 +14,13 @@ class PerformActionPermission(BasePermission):
     """
 
     def is_author(self, request, view):
-        data = request.data
-        user = get_user(request)
-        obj_owner = data.get('author')
-        return obj_owner == user.username
+        author = request.data.get('author')
+        if author:
+            return request.user.username == author
+        return False
 
     def has_create_permission(self, request, view):
-        user = get_user(request)
-        if user.is_anonymous:
-            return False
-        manual = get_manual_authentication(user)
-        return bool(user and
-                    user.is_active and
-                    user.is_authenticated and manual)
+        return self.is_author(request, view)
 
     def has_retrieve_permission(self, request, view):
         return self.is_author(request, view)
