@@ -16,6 +16,8 @@ operations_api_router.register('login', LoginViewSet,
                                basename='login')
 operations_api_router.register('upload-avatar', AvatarUploadApiViewSet,
                                basename='upload-avatar')
+operations_api_router.register('upload-image', AvatarUploadApiViewSet,
+                               basename='upload-image')
 
 urlpatterns = [
     path('', include((operations_api_router.urls, 'operations'), namespace='operations')),
