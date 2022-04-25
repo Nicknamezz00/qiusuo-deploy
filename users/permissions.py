@@ -34,7 +34,7 @@ class IsManualAuthenticatedOrReadOnly(BasePermission):
                 user_info.is_manual_authenticated)
 
     def has_object_permission(self, request, view, obj):
-        user = get_user(request)
+        user = request.user
         if user.is_staff:
             return True
 
