@@ -39,7 +39,7 @@ def upload_avatar(request):
 
 def upload_image(request):
     """
-    Uploads a avatar to the server.
+    Uploads a image to the server.
     """
     if request.method == 'POST':
         if hasattr(request, 'FILES'):
