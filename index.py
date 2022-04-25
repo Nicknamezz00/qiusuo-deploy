@@ -16,6 +16,7 @@ else:
 @permission_classes([AllowAny])
 def root(request):
     return Response({
+        'api-version': '1.0',
         'swagger-doc': prefix + 'doc/',
         'docs': prefix + 'docs/',
         'operation-manage': prefix + 'operation-manage/',
