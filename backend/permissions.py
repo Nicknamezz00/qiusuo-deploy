@@ -54,3 +54,6 @@ class PerformActionPermission(BasePermission):
             return self.has_destroy_permission(request, view)
         else:
             raise Exception("omission behavior in `PerformActionPermission`")
+
+    def has_object_permission(self, request, view, obj):
+        pass

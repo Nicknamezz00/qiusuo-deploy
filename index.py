@@ -1,10 +1,6 @@
-import os
-
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-
-from backend import settings
 
 prefix = 'http://43.138.201.217/'
 
@@ -13,7 +9,7 @@ prefix = 'http://43.138.201.217/'
 @permission_classes([AllowAny])
 def root(request):
     return Response({
-        'api-version': '1.0',
+        'api-version': '1.1',
         'swagger-doc': prefix + 'doc/',
         'docs': prefix + 'docs/',
         'operation-manage': prefix + 'operation-manage/',
