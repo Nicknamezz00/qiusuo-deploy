@@ -26,7 +26,7 @@ class Comment(models.Model):
     # owner = models.ManyToManyField(User, related_name='comment_owner_set', blank=True)
 
     def __str__(self):
-        return self.author.username
+        return self.post_id
 
     class Meta:
         db_table = 'Comment'
