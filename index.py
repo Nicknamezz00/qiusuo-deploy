@@ -6,10 +6,7 @@ from rest_framework.response import Response
 
 from backend import settings
 
-if settings.ENV_DEFINE == 'online':
-    prefix = 'https://qiusuo-1622447-1309638607.ap-shanghai.run.tcloudbase.com/'
-else:
-    prefix = 'http://127.0.0.1:8000/'
+prefix = 'http://43.138.201.217/'
 
 
 @api_view(['GET'])
