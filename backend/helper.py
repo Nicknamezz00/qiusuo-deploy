@@ -41,3 +41,8 @@ class MyModelViewSet(viewsets.ModelViewSet):
         data['code'] = 200
         data['success'] = True
         return Response(data=data, status=status.HTTP_200_OK)
+
+
+# TODO: Custom response with api version.
+class VersionResponse:
+    pass
