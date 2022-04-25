@@ -30,7 +30,7 @@ class ImageUploadApiViewSet(GenericViewSet, CreateModelMixin):
     serializer_class = ImageUploadSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = AvatarUploadSerializer(data=request.data)
+        serializer = ImageUploadSerializer(data=request.data)
         if not serializer.is_valid():
             return JsonResponse({
                 'status': 'error',

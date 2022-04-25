@@ -22,7 +22,7 @@ def upload_avatar(request):
                     request.FILES['avatar'].name), '/media/avatar/')
             return JsonResponse({
                 'status': 'success',
-                'url': 'https://7072-prod-4gtr7e0o54f0f5ca-1309638607.tcb.qcloud.la/media/avatar/' + quote(str(
+                'url': 'https://7072-prod-4gtr7e0o54f0f5ca-1309638607.tcb.qcloud.la' + quote(str(
                     file_path)),
             }, status=200)
         else:
@@ -48,13 +48,13 @@ def upload_image(request):
                     'status': 'error',
                     'message': '图片大小在1k和20MB之间哦.',
                 }, status=400)
-            handle_file(
+            file_path = handle_file(
                 request.FILES['image'], str(
                     request.FILES['image'].name), '/media/images/')
             return JsonResponse({
                 'status': 'success',
-                'url': 'https://7072-prod-4gtr7e0o54f0f5ca-1309638607.tcb.qcloud.la/media/images/' + quote(str(
-                    request.FILES['image'].name)),
+                'url': 'https://7072-prod-4gtr7e0o54f0f5ca-1309638607.tcb.qcloud.la' + quote(str(
+                    file_path)),
             }, status=200)
         else:
             return JsonResponse({

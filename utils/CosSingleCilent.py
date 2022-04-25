@@ -41,10 +41,10 @@ class StorageClient:
             response = self.cos_client.put_object(
                 Bucket=self.bucket,
                 Body=fp,
-                Key=filepath+file_md5+filename.split('.')[-1],
+                Key=filepath+file_md5+'.'+filename.split('.')[-1],
             )
         os.remove(localpath + filename)
-        return filepath+file_md5+filename.split('.')[-1]
+        return filepath+file_md5+'.'+filename.split('.')[-1]
 
 
 cos = StorageClient()
