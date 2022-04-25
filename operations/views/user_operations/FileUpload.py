@@ -27,7 +27,7 @@ class AvatarUploadApiViewSet(GenericViewSet, CreateModelMixin):
 
 class ImageUploadApiViewSet(GenericViewSet, CreateModelMixin):
     permission_classes = [IsAuthenticated]
-    serializer_class = ImageUploadSerializer
+    serializer_class = AvatarUploadSerializer
 
     def create(self, request, *args, **kwargs):
         serializer = AvatarUploadSerializer(data=request.data)
@@ -37,4 +37,4 @@ class ImageUploadApiViewSet(GenericViewSet, CreateModelMixin):
                 'message': 'Invalid file'
             })
         else:
-            return utils.upload.upload_image(request)
+            return utils.upload.upload_avatar(request)
