@@ -1,12 +1,6 @@
-from django.contrib.auth.models import User
+from users.models import UserInfo
 
 
-def staff(obj):
-    if isinstance(obj, User) and obj:
-        return obj.is_staff or obj.is_superuser
-
-    user = User.objects.get(username=obj)
-    if not user:
-        return False
-    return bool(user and user.is_staff or user.is_superuser)
-
+def get_manual_authentication(user):
+    user_info = UserInfo.objects.get(user_ptr_id=user.id)
+    return user_info.is_manual_authenticated

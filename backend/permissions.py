@@ -1,5 +1,7 @@
+from django.contrib.auth import get_user
 from rest_framework.permissions import BasePermission
 
+from utils.permission_control import get_manual_authentication
 
 SAFE_ACTIONS = 'list'
 SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')
@@ -11,17 +13,23 @@ class PerformActionPermission(BasePermission):
     from `IsManualAuthenticatedOrReadOnly` or `IsAuthenticatedOrReadOnly`
     """
 
+    def is_author(self, request, view):
+        author = request.data.get('author')
+        if author:
+            return request.user.username == author
+        return False
+
     def has_create_permission(self, request, view):
-        return True
+        return self.is_author(request, view)
 
     def has_retrieve_permission(self, request, view):
-        return True
+        return self.is_author(request, view)
 
     def has_update_permission(self, request, view):
-        return True
+        return self.is_author(request, view)
 
     def has_destroy_permission(self, request, view):
-        return True
+        return self.is_author(request, view)
 
     def has_permission(self, request, view):
         # safe action.

@@ -30,7 +30,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     """手机 or 邮箱注册"""
     password2 = serializers.CharField(
-        max_length=12,
+        max_length=128,
         min_length=6,
         write_only=True,
         error_messages={
@@ -196,6 +196,11 @@ class LoginSerializer(serializers.ModelSerializer):
         else:
             raise ValidationError('密码错误')
 
+    def to_representation(self, instance):
+        res = super().to_representation(instance=instance)
+        res.pop('password')
+        return res
+
     class Meta:
         model = UserInfo
         fields = ['username', 'password', 'user_info']
@@ -203,6 +208,13 @@ class LoginSerializer(serializers.ModelSerializer):
 
 class AvatarUploadSerializer(serializers.Serializer):
     avatar = serializers.FileField()
+
+    class Meta:
+        fields = ['file']
+
+
+class ImageUploadSerializer(serializers.Serializer):
+    img = serializers.FileField()
 
     class Meta:
         fields = ['file']

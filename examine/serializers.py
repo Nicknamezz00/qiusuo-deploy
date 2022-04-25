@@ -9,7 +9,7 @@ class TitleExamineCreateSerializer(serializers.ModelSerializer):
     school = serializers.SlugRelatedField(
         queryset=School.objects.all(),
         slug_field='school_name',
-        required=False)
+        required=True)
 
     class Meta:
         model = TitleExamine
@@ -17,6 +17,11 @@ class TitleExamineCreateSerializer(serializers.ModelSerializer):
 
 
 class TitleExamineDetailSerializer(serializers.ModelSerializer):
+    owner = serializers.SlugRelatedField(
+        queryset=UserInfo.objects.all(),
+        slug_field='id',
+        required=False)
+
     class Meta:
         model = TitleExamine
-        fields = ['id', 'title', 'real_name', 'school_id_card', 'school', 'is_approved', 'is_rejected', 'reject_reason']
+        fields = ['id', 'owner', 'title', 'real_name', 'school_id_card', 'school', 'is_approved', 'is_rejected', 'reject_reason']

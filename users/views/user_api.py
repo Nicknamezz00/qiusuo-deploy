@@ -11,7 +11,7 @@ from rest_framework.viewsets import ModelViewSet
 from users.models import UserInfo, UserTitle
 from users import permissions as user_permissions
 from users.serializers import UserTitleSerializer, UserProfileSerializer, ResetPasswordSerializer
-
+from users.utils import get_user_by_email_or_phone
 
 
 class UserInfoViewSet(ModelViewSet):
@@ -42,13 +42,13 @@ class UserInfoViewSet(ModelViewSet):
             'msg': '已登出'
         }, status=status.HTTP_200_OK)
 
-    @action(methods=['POST'], detail=True,
-            permission_classes=[permissions.IsAuthenticated])
-    def reset_password(self, request, pk):
+    @action(methods=['POST'], detail=False,
+            permission_classes=[permissions.AllowAny])
+    def reset_password(self, request):
         """
         修改密码。先发送邮箱验证码。
         """
-        instance = self.get_object()
+        instance = get_user_by_email_or_phone(request.data.get('username'))
         serializer = ResetPasswordSerializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -57,7 +57,7 @@ class UserInfoViewSet(ModelViewSet):
         return Response(data={
             'success': True,
             'code': 200,
-            'msg': '修改密码成功！'
+            'msg': '修改密码成功！',
         }, headers=headers, status=status.HTTP_200_OK)
 
     @action(methods=['POST'], detail=True,

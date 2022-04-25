@@ -1,7 +1,8 @@
+from django.contrib.auth import get_user
+from django.contrib.auth.models import User
 from rest_framework.permissions import BasePermission
 
 from users.models import UserInfo
-from utils.permission_control import staff
 
 SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')
 
@@ -34,7 +35,12 @@ class IsManualAuthenticatedOrReadOnly(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         user = request.user
-        if staff(user):
+        if user.is_staff:
             return True
+
+        if isinstance(obj, UserInfo):
+            return obj.user_ptr_id == user.id
+        if isinstance(obj, User):
+            return obj.id == user.id
 
         return user.id == obj.author_id
