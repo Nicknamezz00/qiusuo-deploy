@@ -1,7 +1,4 @@
-from django.contrib.auth import get_user
-
 from backend.permissions import PerformActionPermission
-from utils.permission_control import get_manual_authentication
 
 
 class CommentPermission(PerformActionPermission):

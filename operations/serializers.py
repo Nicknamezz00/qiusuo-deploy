@@ -201,7 +201,6 @@ class LoginSerializer(serializers.ModelSerializer):
         res.pop('password')
         return res
 
-
     class Meta:
         model = UserInfo
         fields = ['username', 'password', 'user_info']
@@ -209,6 +208,13 @@ class LoginSerializer(serializers.ModelSerializer):
 
 class AvatarUploadSerializer(serializers.Serializer):
     avatar = serializers.FileField()
+
+    class Meta:
+        fields = ['file']
+
+
+class ImageUploadSerializer(serializers.Serializer):
+    image = serializers.FileField()
 
     class Meta:
         fields = ['file']

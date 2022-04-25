@@ -31,6 +31,9 @@ class TitleExamine(models.Model):
     reject_reason = models.CharField(
         max_length=100, verbose_name='拒绝理由', default='')
 
+    def __str__(self):
+        return self.real_name + ' ' + self.school.school_name
+
     class Meta:
         db_table = 'TitleExamine'
         verbose_name = '职称审核'

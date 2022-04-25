@@ -31,6 +31,9 @@ class Feedback(models.Model):
 
     last_modified = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title + ' ' + self.user.username
+
     class Meta:
         db_table = 'feedback'
         verbose_name = '用户反馈'
