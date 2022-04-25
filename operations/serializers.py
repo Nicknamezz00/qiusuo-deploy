@@ -214,7 +214,7 @@ class AvatarUploadSerializer(serializers.Serializer):
 
 
 class ImageUploadSerializer(serializers.Serializer):
-    img = serializers.FileField()
+    image = serializers.FileField()
 
     class Meta:
         fields = ['file']

@@ -97,28 +97,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 ENV_DEFINE = os.getenv('position')
-if ENV_DEFINE == 'online':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'qiusuo_v2',
-            'USER': 'root',
-            'PASSWORD': '20020704Zz',
-            'HOST': 'sh-cynosdbmysql-grp-5y6po95m.sql.tencentcdb.com',
-            'PORT': '23316'
-        },
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'local_qiusuo',
-            'USER': 'wrz',
-            'PASSWORD': 'wrz',
-            'HOST': 'localhost',
-            'PORT': '3306'
-        },
-    }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'local_qiusuo',
+        'USER': 'zzy',
+        'PASSWORD': '2002',
+        'HOST': '127.0.0.1',
+        'PORT': '3306'
+    },
+}
 
 
 # Password validation
@@ -173,6 +161,7 @@ CORS_ORIGIN_WHITELIST = [
     'https://127.0.0.1:8080',
     'https://localhost:8080',
     'https://qiusuo-frontend-1622447-1309638607.ap-shanghai.run.tcloudbase.com',
+    'https://www.qiusuo-mc.cn',
 ]
 
 # 前端需要携带cookies访问后端
