@@ -1,7 +1,6 @@
-from django.contrib.auth import get_user
 from rest_framework.permissions import BasePermission
 
-from utils.permission_control import get_manual_authentication
+from comments.models import Comment
 
 SAFE_ACTIONS = 'list'
 SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')
@@ -14,9 +13,13 @@ class PerformActionPermission(BasePermission):
     """
 
     def is_author(self, request, view):
-        author = request.data.get('author')
-        if author:
-            return request.user.username == author
+        pk = view.kwargs.get('pk')
+        obj = None
+        if pk:
+            obj = Comment.objects.get(pk=pk)
+            if obj:
+                return obj.author.username == request.user.username
+
         return False
 
     def has_create_permission(self, request, view):
@@ -45,7 +48,7 @@ class PerformActionPermission(BasePermission):
             return self.has_create_permission(request, view)
         elif view.action == 'retrieve':
             return self.has_retrieve_permission(request, view)
-        elif view.action == 'update':
+        elif view.action == 'update' or view.action == 'partial_update':
             return self.has_update_permission(request, view)
         elif view.action == 'destroy':
             return self.has_destroy_permission(request, view)
