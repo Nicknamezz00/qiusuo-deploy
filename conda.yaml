@@ -1,4 +1,4 @@
-name: E:\conda\qiusuo
+name: /home/wrz/miniconda3/qiusuo
 channels:
   - defaults
 dependencies:
@@ -48,5 +48,4 @@ dependencies:
     - uritemplate==4.1.1
     - urllib3==1.26.8
     - yarg==0.1.9
-prefix: E:\conda\qiusuo
-
+prefix: /home/wrz/miniconda3/qiusuo
