@@ -1,3 +1,6 @@
+import hashlib
+import os
+
 import requests
 import json
 from qcloud_cos import CosConfig
@@ -31,12 +34,17 @@ class StorageClient:
 
     def write_file(self, filepath, filename, localpath):
         self.FreshSecret()
+        with open(localpath + filename, 'rb') as fp:
+            data = fp.read()
+        file_md5 = hashlib.md5(data).hexdigest()
         with open(localpath+filename, 'rb') as fp:
             response = self.cos_client.put_object(
                 Bucket=self.bucket,
                 Body=fp,
-                Key=filepath+filename,
+                Key=filepath+file_md5+filename.split('.')[-1],
             )
+        os.remove(localpath + filename)
+        return filepath+file_md5+filename.split('.')[-1]
 
 
 cos = StorageClient()

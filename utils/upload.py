@@ -17,13 +17,13 @@ def upload_avatar(request):
                     'status': 'error',
                     'message': '头像大小在1k和2MB之间哦.',
                 }, status=400)
-            handle_file(
+            file_path = handle_file(
                 request.FILES['avatar'], str(
                     request.FILES['avatar'].name), '/media/avatar/')
             return JsonResponse({
                 'status': 'success',
                 'url': 'https://7072-prod-4gtr7e0o54f0f5ca-1309638607.tcb.qcloud.la/media/avatar/' + quote(str(
-                    request.FILES['avatar'].name)),
+                    file_path)),
             }, status=200)
         else:
             return JsonResponse({
@@ -44,7 +44,5 @@ def handle_file(file, filename, path):
     with open(localpath + filename, 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
-    print("start to print")
-    cos.write_file(filepath=path, filename=filename, localpath=localpath)
-    print("finish to print")
-    os.remove(localpath + filename)
+    return cos.write_file(filepath=path, filename=filename, localpath=localpath)
+
