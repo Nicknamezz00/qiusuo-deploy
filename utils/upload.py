@@ -5,6 +5,8 @@ from django.http import JsonResponse
 from urllib.request import quote
 from utils.CosSingleCilent import cos
 
+cos_url = 'https://qiusuo-1310314982.cos.ap-guangzhou.myqcloud.com'
+
 
 def upload_avatar(request):
     """
@@ -22,7 +24,7 @@ def upload_avatar(request):
                     request.FILES['avatar'].name), '/media/avatar/')
             return JsonResponse({
                 'status': 'success',
-                'url': 'https://7072-prod-4gtr7e0o54f0f5ca-1309638607.tcb.qcloud.la' + quote(str(
+                'url': cos_url + quote(str(
                     file_path)),
             }, status=200)
         else:
@@ -53,7 +55,7 @@ def upload_image(request):
                     request.FILES['image'].name), '/media/images/')
             return JsonResponse({
                 'status': 'success',
-                'url': 'https://7072-prod-4gtr7e0o54f0f5ca-1309638607.tcb.qcloud.la' + quote(str(
+                'url': cos_url + quote(str(
                     file_path)),
             }, status=200)
         else:
@@ -76,4 +78,3 @@ def handle_file(file, filename, path):
         for chunk in file.chunks():
             destination.write(chunk)
     return cos.write_file(filepath=path, filename=filename, localpath=localpath)
-
