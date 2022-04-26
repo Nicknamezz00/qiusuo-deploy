@@ -11,16 +11,8 @@ class PerformActionPermission(BasePermission):
     Assume we have already granted permission
     from `IsManualAuthenticatedOrReadOnly` or `IsAuthenticatedOrReadOnly`
     """
-
     def is_author(self, request, view):
-        pk = view.kwargs.get('pk')
-        obj = None
-        if pk:
-            obj = Comment.objects.get(pk=pk)
-            if obj:
-                return obj.author.username == request.user.username
-
-        return False
+        pass
 
     def has_create_permission(self, request, view):
         return self.is_author(request, view)
