@@ -9,15 +9,21 @@ class PostPermission(PerformActionPermission):
     """
     校验JWT表明的身份与相关对象拥有者身份
     """
-    def is_author(self, request, view):
-        pk = view.kwargs.get('pk')
-        obj = None
-        if pk:
-            obj = Post.objects.get(pk=pk)
-            if obj:
-                return obj.author.username == request.user.username
+    def is_author(self, request, view, detail=None):
+        if detail is None:
+            raise Exception("Exception in `PostPermission`")
 
-        return False
+        if not detail:
+            # create action
+            author = request.data.get('author')
+            if not author:
+                raise Exception("请填写author字段!")
+
+            return author == request.user.username
+        else:
+            pk = view.kwargs.get('pk')
+            obj = Post.objects.get(pk=pk)
+            return obj.author.username == request.user.username
 
     def has_object_permission(self, request, view, obj):
         assert isinstance(obj, Post)

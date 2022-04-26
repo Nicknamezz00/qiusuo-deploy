@@ -11,20 +11,20 @@ class PerformActionPermission(BasePermission):
     Assume we have already granted permission
     from `IsManualAuthenticatedOrReadOnly` or `IsAuthenticatedOrReadOnly`
     """
-    def is_author(self, request, view):
+    def is_author(self, request, view, detail=None):
         pass
 
     def has_create_permission(self, request, view):
-        return self.is_author(request, view)
+        return self.is_author(request, view, False)
 
     def has_retrieve_permission(self, request, view):
-        return self.is_author(request, view)
+        return self.is_author(request, view, True)
 
     def has_update_permission(self, request, view):
-        return self.is_author(request, view)
+        return self.is_author(request, view, True)
 
     def has_destroy_permission(self, request, view):
-        return self.is_author(request, view)
+        return self.is_author(request, view, True)
 
     def has_permission(self, request, view):
         # safe action.
