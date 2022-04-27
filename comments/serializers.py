@@ -46,10 +46,6 @@ class CommentSerializer(serializers.ModelSerializer):
             all_child_comments, many=True)
         return child_comments_ser.data
 
-    def validate(self, attrs):
-        print(attrs)
-        return attrs
-
     def to_representation(self, instance):
         res = super().to_representation(instance=instance)
         author_ser = users_ser.UserProfileSerializer(instance=instance.author)
