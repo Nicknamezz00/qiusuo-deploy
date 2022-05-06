@@ -42,18 +42,13 @@ def send_email(request, *args, **kwargs):
     """
     发送邮箱验证码，返回code
     """
-    print('init stmp client')
     smtp = smtplib.SMTP()
-    print('connect stmp server')
     smtp.connect('smtp.qq.com', 587)
-    print('login stmp server')
     try:
         smtp.login(user=username, password=password)
         receiver = request.data['email']
         code = generate_code()
-        print('gen context')
         msg = get_message(receiver, code)
-        print('start to sent context')
         smtp.sendmail(username, receiver, msg.as_string())
         smtp.quit()
         return code
@@ -64,6 +59,3 @@ def send_email(request, *args, **kwargs):
             "code": 400,
             'msg': '发送验证码失败',
         }, status=status.HTTP_400_BAD_REQUEST)
-
-
-
