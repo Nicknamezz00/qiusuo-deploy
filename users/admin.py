@@ -5,8 +5,10 @@ from users.models import UserInfo
 
 @admin.register(UserInfo)
 class UserInfoAdmin(admin.ModelAdmin):
-    readonly_fields = ('password',)
-
+    list_display = ('username', 'email', 'full_name', 'position',
+                    'subject', 'school', 'is_manual_authenticated',
+                    )
+    readonly_fields = ('password', 'date_joined', 'last_login')
     date_hierarchy = 'created_at'
     actions = ['manual_authenticate']
     search_fields = ['username']
@@ -20,10 +22,14 @@ class UserInfoAdmin(admin.ModelAdmin):
     # Order matters.
     fieldsets = (
         (None, {
-            'fields': ('username', 'password', 'phone', 'email',
-                       'intro', 'qq', 'school', 'age', 'avatar',
-                       ('last_name', 'first_name'), 'subject',
-                       'position', 'is_manual_authenticated')
+            'fields': (
+                'username', 'password', 'phone', 'email',
+                'qq', 'intro', 'age', 'avatar',
+                ('first_name', 'last_name'),
+                'subject', 'school', 'position',
+                'is_manual_authenticated',
+                ('date_joined', 'last_login'),
+            )
         }),
     )
 
