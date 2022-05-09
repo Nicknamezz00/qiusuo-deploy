@@ -2,7 +2,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-prefix = 'https://api.qiusuo-mc.cn/'
+prefix = ('https://api.qiusuo-mc.cn/'
+          if not __debug__ else
+          'http://127.0.0.1:8000/')
 
 
 @api_view(['GET'])
