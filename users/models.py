@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -15,7 +16,9 @@ class UserInfo(User):
         blank=True,
         null=True,
         verbose_name=u'QQ号码')
-    avatar = models.URLField(default='avatar/default.png')  # 头像
+    avatar = models.URLField('头像', default=(
+        'https://qiusuo-1310314982.cos.ap-guangzhou.myqcloud.com/media/avatar/825ed0c3b35e053013344ee5ade03458.png'
+    ))
     phone = models.CharField(
         max_length=11,
         null=True,
@@ -91,6 +94,11 @@ class UserInfo(User):
     def __repr__(self):
         return "User[id=%d, username=%s, password=%s, is_superuser=%s, is_staff=%s]" % (
             self.id, self.username, self.password, self.is_superuser, self.is_staff)
+
+    @property
+    @admin.display(ordering='last_name', description='姓名', )
+    def full_name(self):
+        return self.first_name + ' ' + self.last_name
 
     class Meta:
         ordering = ['id']
