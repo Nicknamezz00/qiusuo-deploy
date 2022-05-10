@@ -40,6 +40,15 @@ class CommentSerializer(serializers.ModelSerializer):
 
     child_comment = serializers.SerializerMethodField(read_only=True)
 
+    def validate_parent(self, parent):
+        """如果当前不是一级评论，父评论的id和当前评论所属帖子id是否匹配"""
+        init_data = self.initial_data
+        post_id: int = int(init_data.get('post_id'))
+
+        if not parent or parent.post_id != post_id:
+            raise serializers.ValidationError("post_id与parent不匹配")
+        return parent
+
     def get_child_comment(self, obj):
         all_child_comments = Comment.objects.filter(parent_id=obj.pk)
         child_comments_ser = InnerChildSerializer(

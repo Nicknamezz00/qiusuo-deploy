@@ -32,9 +32,8 @@ class Post(models.Model):
         blank=True,
         related_name='+',
         db_constraint=False)
-    status = models.CharField(
-        max_length=20,
-        default='active',
+    status = models.BooleanField(
+        default=True,
         verbose_name=u'状态')
     comment = models.ForeignKey(
         verbose_name='评论',

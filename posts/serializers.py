@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from comments.models import Comment
 from posts.models import Post
 from subjects.models import Subject
 from users.models import UserInfo
@@ -25,14 +26,29 @@ class PostSerializer(serializers.ModelSerializer):
         slug_field='cate_name',
         help_text='学科分类')
 
+    comment = serializers.SerializerMethodField()
+
+    def get_comment(self, obj):
+        comments = Comment.objects.filter(
+            post_id=obj.id).values().order_by('-created_at')
+        return comments
+
+    def get_comment_count(self, comments):
+        # 一级评论数量
+        return len(comments.model.objects.filter(
+            parent_id__isnull=True)) if comments else 0
+
+    def to_representation(self, instance):
+        res = super().to_representation(instance=instance)
+
+        author = instance.author
+        author_ser = InnerAuthorSerializer(author)
+        res['author'] = author_ser.data
+        res['comment_count'] = self.get_comment_count(res.get('comment'))
+
+        return res
+
     class Meta:
         model = Post
         depth = 3
         fields = '__all__'
-
-    def to_representation(self, instance):
-        res = super().to_representation(instance=instance)
-        author = instance.author
-        author_ser = InnerAuthorSerializer(author)
-        res['author'] = author_ser.data
-        return res
