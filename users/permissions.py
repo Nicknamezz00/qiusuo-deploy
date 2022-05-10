@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework.permissions import BasePermission
 
+from backend.decoraters import pass_safe_method
 from users.models import UserInfo
 
 SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')
@@ -12,10 +13,8 @@ class IsManualAuthenticatedOrReadOnly(BasePermission):
     if manual authenticated, the request has permissions to modify database.
     """
 
+    @pass_safe_method
     def has_permission(self, request, view):
-        if request.method in SAFE_METHODS:
-            return True
-
         if request.user and (
                 request.user.is_staff or request.user.is_superuser):
             return True
@@ -24,7 +23,7 @@ class IsManualAuthenticatedOrReadOnly(BasePermission):
             return bool(request.method in SAFE_METHODS)
         else:
             user_info = UserInfo.objects.get(user_ptr_id=request.user.id)
-            # FIXME: this will be removed later.
+            # FIXME: This will be removed later.
             # if user_info.school_id == 2153:
             #     return True
             return bool(

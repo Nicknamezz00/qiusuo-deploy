@@ -1,6 +1,6 @@
 from rest_framework.permissions import BasePermission
 
-from comments.models import Comment
+from backend.decoraters import pass_safe_method
 
 SAFE_ACTIONS = 'list'
 SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')
@@ -26,11 +26,8 @@ class PerformActionPermission(BasePermission):
     def has_destroy_permission(self, request, view):
         return self.is_author(request, view, True)
 
+    @pass_safe_method
     def has_permission(self, request, view):
-        # safe action.
-        if view.action == SAFE_ACTIONS or request.method in SAFE_METHODS:
-            return True
-
         # bypass.
         if request.user and (
                 request.user.is_staff or request.user.is_superuser):
@@ -44,8 +41,9 @@ class PerformActionPermission(BasePermission):
             return self.has_update_permission(request, view)
         elif view.action == 'destroy':
             return self.has_destroy_permission(request, view)
-        else:
-            raise Exception("omission behavior in `PerformActionPermission`")
+
+        # Defensive, this return clause should not make any difference.
+        return False
 
     def has_object_permission(self, request, view, obj):
         pass
