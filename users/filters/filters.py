@@ -6,4 +6,4 @@ from users.models import UserInfo
 class UserFilter(FilterSet):
     class Meta:
         model = UserInfo
-        fields = ['id', 'username', 'qq']
+        fields = ['id', 'username', 'qq', 'email', 'phone']

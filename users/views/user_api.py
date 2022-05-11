@@ -1,16 +1,19 @@
 from django.contrib import auth
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import permissions
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.filters import OrderingFilter
-from rest_framework import permissions
+from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+from users.filters.filters import UserFilter
 from users.models import UserInfo, UserTitle
-from users import permissions as user_permissions
-from users.serializers import UserTitleSerializer, UserProfileSerializer, ResetPasswordSerializer
+from users.serializers import (
+    UserTitleSerializer,
+    UserProfileSerializer,
+    ResetPasswordSerializer)
 from users.utils import get_user_by_email_or_phone
 
 
@@ -25,9 +28,11 @@ class UserInfoViewSet(ModelViewSet):
     queryset = UserInfo.objects.all()
     serializer_class = UserProfileSerializer
 
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filter_fields = ['id', 'username', 'qq', 'email', 'phone']
+    filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
+    filter_class = UserFilter
+
     ordering_fields = ['id', 'username', 'created_at']
+    search_fields = ['username', '=qq', '=phone', '=email']
 
     @action(methods=['GET'], detail=True,
             permission_classes=[permissions.AllowAny])
