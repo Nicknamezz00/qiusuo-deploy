@@ -2,6 +2,9 @@ from django.contrib import admin
 
 from users.models import UserInfo
 
+admin.AdminSite.site_header = 'Qiusuo后台管理'
+admin.AdminSite.site_title = 'Qiusuo后台管理'
+
 
 @admin.register(UserInfo)
 class UserInfoAdmin(admin.ModelAdmin):
@@ -11,7 +14,7 @@ class UserInfoAdmin(admin.ModelAdmin):
     readonly_fields = ('password', 'date_joined', 'last_login')
     date_hierarchy = 'created_at'
     actions = ['manual_authenticate']
-    search_fields = ['username']
+    search_fields = ('username', 'first_name', 'last_name', 'email')
     show_full_result_count = False
 
     # Order matters.
