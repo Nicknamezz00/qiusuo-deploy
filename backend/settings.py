@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # --- django dependencies ---
     'corsheaders',
     'django_filters',
+    'crispy_forms',
 
     # --- app ---
     'users',
