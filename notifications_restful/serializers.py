@@ -59,7 +59,7 @@ class NotificationSerializer(ModelSerializer):
         recipient = UserModel.objects.get_or_create(id=recipient_data['id'])
         actor_data = validated_data.pop('actor')
         actor = UserModel.objects.get(id=actor_data['id'])
-        notification = Notification.objects.create(recipient=recipient[0], actor=actor[0], **validated_data)
+        notification = Notification.objects.create(recipient=recipient[0], actor=actor, **validated_data)
         return notification
 
 
