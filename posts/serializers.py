@@ -33,18 +33,14 @@ class PostSerializer(serializers.ModelSerializer):
             post_id=obj.id).values().order_by('-created_at')
         return comments
 
-    def get_comment_count(self, comments):
-        # 一级评论数量
-        return len(comments.model.objects.filter(
-            parent_id__isnull=True)) if comments else 0
-
     def to_representation(self, instance):
         res = super().to_representation(instance=instance)
 
         author = instance.author
         author_ser = InnerAuthorSerializer(author)
         res['author'] = author_ser.data
-        res['comment_count'] = self.get_comment_count(res.get('comment'))
+        # 一级评论数量
+        res['comment_count'] = res.comment.filter(parent=None).count()
 
         return res
 
