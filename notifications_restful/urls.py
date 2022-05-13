@@ -19,5 +19,5 @@ urlpatterns = [
     url(r'^api/unread_count/$', UnreadNotificationCount.as_view(), name='live_unread_notification_count'),
     url(r'^api/all_count/$', AllNotificationCount.as_view(), name='live_all_notification_count'),
     url(r'^api/unread_list/$', UnreadNotificationsList.as_view({'get': 'list'}), name='live_unread_notification_list'),
-    url(r'^api/all_list/$', AllNotificationsList.as_view({'get': 'list'}), name='live_all_notification_list'),
+    url(r'^api/all_list/$', AllNotificationsList.as_view(), name='live_all_notification_list'),
 ]
