@@ -87,7 +87,7 @@ class SendToAllUserSerializer(ModelSerializer):
         for user in recipient_data:
             if user.id == actor_data['id']:
                 continue
-            notification = Notification.objects.create(recipient=user, actor=actor[0], **validated_data)
+            notification = Notification.objects.create(recipient=user, actor=actor, **validated_data)
         notification = Notification.objects.create(UserModel.objects.get_or_create(recipient=UserModel.objects.get(id=1))
                                                    , actor=actor[0], **validated_data)
         return notification
