@@ -6,7 +6,7 @@ from rest_framework import viewsets, status
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
 from rest_framework.generics import CreateAPIView
-from notifications_restful.serializers import NotificationSerializer
+from notifications_restful.serializers import NotificationSerializer, SendToAllUserSerializer
 from notifications.models import Notification
 
 
@@ -102,3 +102,11 @@ class AllNotificationCount(APIView):
 class NotificationViewSet(viewsets.ModelViewSet):
     serializer_class = NotificationSerializer
     queryset = Notification.objects.all()
+
+
+class NotificationForAllViewSet(CreateAPIView):
+    serializer_class = SendToAllUserSerializer
+
+    def create(self, request, *args, **kwargs):
+        super(NotificationForAllViewSet, self).create(request, *args, **kwargs)
+        return Response({'code': 'OK'}, status=status.HTTP_200_OK)
