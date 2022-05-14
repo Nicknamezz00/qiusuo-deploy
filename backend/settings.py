@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
     'crispy_forms',
+    'notifications',
 
     # --- app ---
     'users',
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     'examine',
     'feedback',
     'informations',
+    'notifications_restful',
 
     # --- DRF ---
     'rest_framework',
@@ -68,7 +70,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -167,7 +169,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_WHITELIST = [
     'https://127.0.0.1:8080',
     'https://localhost:8080',
-    'https://qiusuo-frontend-1622447-1309638607.ap-shanghai.run.tcloudbase.com',
+    # 'https://qiusuo-frontend-1622447-1309638607.ap-shanghai.run.tcloudbase.com',
     'https://www.qiusuo-mc.cn',
 ]
 
