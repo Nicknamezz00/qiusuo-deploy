@@ -40,7 +40,11 @@ class PostSerializer(serializers.ModelSerializer):
         author_ser = InnerAuthorSerializer(author)
         res['author'] = author_ser.data
         # 一级评论数量
-        res['comment_count'] = len(res['comment'])
+        cnt = 0
+        for comment in res['comment']:
+            if not comment['parent_id']:
+                cnt += 1
+        res['comment_count'] = cnt
 
         return res
 
