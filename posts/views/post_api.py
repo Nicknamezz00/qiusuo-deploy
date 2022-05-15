@@ -23,13 +23,13 @@ class PostViewSet(helper.MyModelViewSet):
         2. JWT认证，请求头Authorization：JWT + 登陆返回的Token
     """
     # 最新的帖子
-    queryset = Post.objects.all().order_by('created_at').reverse()
+    queryset = Post.objects.all().order_by('-created_at')
     serializer_class = PostSerializer
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filter_class = PostFilter
 
-    ordering_fields = ['created_at', 'likes']
+    ordering_fields = ['created_at', 'likes', 'annotation']
     search_fields = ['=author__username', 'category', 'title']
 
     @action(methods=['POST'], detail=True,

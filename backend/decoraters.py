@@ -16,7 +16,6 @@ def pass_safe_method(func):
         view = None
         for arg in args:
             # Argument not a class.
-
             if isinstance(arg, Request):
                 request = arg
             if isinstance(arg, viewsets.ModelViewSet):

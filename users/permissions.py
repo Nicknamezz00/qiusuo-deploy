@@ -15,6 +15,7 @@ class IsManualAuthenticatedOrReadOnly(BasePermission):
 
     @pass_safe_method
     def has_permission(self, request, view):
+
         if request.user and (
                 request.user.is_staff or request.user.is_superuser):
             return True

@@ -46,3 +46,7 @@ class MyModelViewSet(viewsets.ModelViewSet):
 # TODO: Custom response with api version.
 class VersionResponse:
     pass
+
+
+class ChoiceValueFilter():
+    pass

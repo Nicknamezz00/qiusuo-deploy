@@ -73,7 +73,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'created_at',
             'groups',
             'user_permissions',
-            'is_superuser']
+            'is_superuser'
+        ]
 
 
 class UserTokenSerializer(serializers.ModelSerializer):
