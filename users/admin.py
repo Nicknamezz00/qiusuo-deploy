@@ -11,7 +11,7 @@ class UserInfoAdmin(admin.ModelAdmin):
     list_display = ('username', 'email', 'full_name', 'position',
                     'subject', 'school', 'is_manual_authenticated',
                     )
-    readonly_fields = ('password', 'date_joined', 'last_login')
+    readonly_fields = ('date_joined', 'last_login')
     date_hierarchy = 'created_at'
     actions = ['manual_authenticate']
     search_fields = ('username', 'first_name', 'last_name', 'email')
