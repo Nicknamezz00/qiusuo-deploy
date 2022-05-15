@@ -77,6 +77,7 @@ urlpatterns = [
     path('feedback/', include('feedback.urls')),
     path('informations/', include('informations.urls')),
     path('notification/', include('notice.urls')),
+    path('scratch/', include('scratch.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

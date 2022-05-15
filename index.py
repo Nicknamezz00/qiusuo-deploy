@@ -22,4 +22,5 @@ def root(request):
         'informations': prefix + 'informations/',
         'feedback': prefix + 'feedback/',
         'examine': prefix + 'examine/',
+        'scratch': prefix + 'scratch/',
     })
