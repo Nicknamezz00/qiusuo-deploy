@@ -6,7 +6,7 @@ from rest_framework import viewsets, status
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
 from rest_framework.generics import CreateAPIView
-from notifications_restful.serializers import NotificationSerializer, SendToAllUserSerializer
+from notice.serializers import NotificationSerializer, SendToAllUserSerializer
 from notifications.models import Notification
 
 

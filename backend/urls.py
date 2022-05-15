@@ -76,7 +76,7 @@ urlpatterns = [
     path('examine/', include('examine.urls')),
     path('feedback/', include('feedback.urls')),
     path('informations/', include('informations.urls')),
-    path('notification/', include('notifications_restful.urls')),
+    path('notification/', include('notice.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

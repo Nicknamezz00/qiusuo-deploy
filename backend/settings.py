@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'examine',
     'feedback',
     'informations',
-    'notifications_restful',
+    'notice',
 
     # --- DRF ---
     'rest_framework',
